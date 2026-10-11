@@ -12,5 +12,6 @@ MeshMusic_CFLAGS  = -fobjc-arc -O2 -Wall
 MeshMusic_CFLAGS += -Imusic/App -Imusic/UI -Imusic/Spot -Ivendor/mbedtls/include -Ivendor/stb
 MeshMusic_LDFLAGS  = -Lvendor/mbedtls/lib -ObjC
 MeshMusic_LIBRARIES = mbedtls mbedx509 mbedcrypto
+MeshMusic_CODESIGN_FLAGS = -S$(THEOS_PROJECT_DIR)/ent.plist   # darf andere Apps starten (Reboot öffnen)
 
 include $(THEOS_MAKE_PATH)/application.mk

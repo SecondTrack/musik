@@ -12,5 +12,15 @@
   "repo": "SecondTrack/musik",
   "requires": "Spotify-Konto",
   "license": "GPL-3.0",
-  "install": "GitHub-Release: neuestes Release, Anhang *.deb"
+  "install": "GitHub-Release: neuestes Release, Anhang *.deb",
+  "bundle": "de.mesh.music",
+  "text": "Suche, Bibliothek, Playlists und Wiedergabe mit nahtlosem Übergang dank Vorladen. Playlists lassen sich für unterwegs offline speichern, Lenkrad- und Bluetooth-Tasten im Auto funktionieren.",
+  "features": [
+    "Suche, Bibliothek und Playlists",
+    "Offline-Download ganzer Playlists",
+    "Nahtloser Übergang dank Vorladen",
+    "Steuerung über Kopfhörer, Bluetooth und Auto"
+  ],
+  "icon": "https://raw.githubusercontent.com/SecondTrack/musik/main/Resources/Icon@2x.png",
+  "private": true
 }

@@ -11,6 +11,7 @@
 #import "MMSheet.h"
 #import "MMCoverFlowView.h"
 #import "MMKeepAlive.h"
+#import "MMAboutView.h"
 #import "MMAudio.h"
 #import "MMCovers.h"
 #import "MeshL10n.h"
@@ -269,7 +270,12 @@ static MMRootController *gRoot;
     [UIView animateWithDuration:0.25 animations:^{ vc.view.frame=f; }];   // von unten reinschieben
     // untere Leisten immer oben halten, damit sie nie von der Playlist verdeckt werden
     [self.view bringSubviewToFront:_dlBar]; [self.view bringSubviewToFront:_npBar]; [self.view bringSubviewToFront:_tabBar];
-    UIView*sheet=[self.view viewWithTag:MMSheetTag]; if(sheet) [self.view bringSubviewToFront:sheet];
+    [self keepOverlaysOnTop];
+}
+// Alles, was die ganze App überdeckt (Panels, About-Seite, Cover Flow), bleibt vor den Leisten
+- (void)keepOverlaysOnTop {
+    for(UIView*v in [self.view.subviews copy])
+        if(v.tag==MMSheetTag || [v isKindOfClass:[MMAboutView class]] || v==(UIView*)_cflow) [self.view bringSubviewToFront:v];
 }
 - (void)popContent {
     UIViewController*vc=_pushed; _pushed=nil; if(!vc)return;
@@ -284,9 +290,10 @@ static MMRootController *gRoot;
     CGFloat top = _npBar.hidden ? (H-_tabH) : _npBar.frame.origin.y;   // direkt über Now-Playing (oder Tab-Leiste)
     _dlBar.frame=CGRectMake(0, top-24, W, 24);
     [self.view bringSubviewToFront:_dlBar];
-    UIView*sheet=[self.view viewWithTag:MMSheetTag]; if(sheet) [self.view bringSubviewToFront:sheet];   // offenes Panel nicht überdecken
+    [self keepOverlaysOnTop];
 }
 - (void)showDownloadProgress:(NSInteger)done total:(NSInteger)total {
+    if(_cflow) return;                    // Cover Flow (quer) nicht überdecken – Download läuft weiter
     if(_classic){ [_classic showDownload:LF(@"Download %ld/%ld",(long)done,(long)total) progress:(total>0?(CGFloat)done/total:0)]; return; }
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDownloadBar) object:nil];
     [self layoutDlBar]; _dlBar.hidden=NO;
@@ -295,6 +302,7 @@ static MMRootController *gRoot;
     _dlProg.frame=CGRectMake(0,22, self.view.bounds.size.width*(total>0?(CGFloat)done/total:0), 2);
 }
 - (void)showDownloadMessage:(NSString *)msg {
+    if(_cflow) return;
     if(_classic){ [_classic showDownload:msg progress:-1]; return; }
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDownloadBar) object:nil];
     [self layoutDlBar]; _dlBar.hidden=NO; _dlLbl.text=msg;
@@ -470,7 +478,7 @@ static NSArray* shuffledFrom(NSArray*list,NSInteger idx){
     __weak MMRootController*ws=self; _cflow.onClose=^{ [ws closeCoverFlow]; };
     _cflow.center=CGPointMake(self.view.bounds.size.width/2,self.view.bounds.size.height/2);
     [self rotateCoverFlow:o animated:NO];
-    _cflow.alpha=0; [self.view addSubview:_cflow];
+    _cflow.alpha=0; [self.view addSubview:_cflow]; _dlBar.hidden=YES;
     [UIView animateWithDuration:0.3 animations:^{ _cflow.alpha=1; }];
 }
 - (void)rotateCoverFlow:(UIDeviceOrientation)o animated:(BOOL)a {

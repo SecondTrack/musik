@@ -1,10 +1,13 @@
 #import "MMAboutView.h"
 #import "MeshL10n.h"
 #import <QuartzCore/QuartzCore.h>
+#import <dlfcn.h>
 
 // Adressen der Website (Domain ist noch Platzhalter, wie im Shop-Build: BASIS = secondtrack.de)
 #define ST_SITE   @"https://secondtrack.de/"
-#define ST_REBOOT @"https://secondtrack.de/reboot.html"
+#define ST_REBOOT @"https://github.com/SecondTrack/reboot/releases/latest"   // bis es eine Cydia-Quelle gibt
+#define REBOOT_ID @"de.mesh.shop"
+static BOOL rebootInstalled(void){ return [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Shop.app/Info.plist"]; }
 
 static UIColor* RGB(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]; }
 
@@ -72,8 +75,9 @@ static UIColor* RGB(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 gre
     _y=MAX(_y+20,16+64)+12;
     UILabel*d=[self text:L(@"Messenger, videos, browser, files and more – apps built for iPod touch 2G to 4G. Browse them all with icons, descriptions and screenshots, and open installed apps with one tap.") size:14 bold:NO color:ink x:16 w:card.bounds.size.width-32 center:NO in:card];
     _y+=d.frame.size.height+14;
-    [self button:L(@"Show in Reboot Appstore") filled:YES action:@selector(openReboot) in:card x:16 w:card.bounds.size.width-32]; _y+=8;
-    [self text:L(@"Download right from here – coming soon.") size:12 bold:NO color:mut x:16 w:card.bounds.size.width-32 center:YES in:card]; _y+=30;
+    BOOL have=rebootInstalled();
+    [self button:(have?L(@"Open Reboot"):L(@"Download Reboot")) filled:YES action:@selector(openReboot) in:card x:16 w:card.bounds.size.width-32]; _y+=8;
+    [self text:(have?L(@"Install and update all apps right on your iPod."):L(@"Free · for jailbroken iPod touch")) size:12 bold:NO color:mut x:16 w:card.bounds.size.width-32 center:YES in:card]; _y+=30;
     card.frame=CGRectMake(14,cy0,W-28,_y); _y=cy0+_y+22;
 
     // Kleingedrucktes
@@ -83,5 +87,13 @@ static UIColor* RGB(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 gre
     return self;
 }
 - (void)openSite { [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ST_SITE]]; }
-- (void)openReboot { [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ST_REBOOT]]; }
+// Installiert: Store direkt starten. Sonst: Download-Seite.
+- (void)openReboot {
+    if(rebootInstalled()){
+        void*h=dlopen("/System/Library/PrivateFrameworks/SpringBoardServices.framework/SpringBoardServices",RTLD_LAZY);
+        int (*f)(CFStringRef,Boolean)=h?dlsym(h,"SBSLaunchApplicationWithIdentifier"):NULL;
+        if(f && f((__bridge CFStringRef)REBOOT_ID,false)==0) return;
+    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ST_REBOOT]];
+}
 @end
