@@ -22,5 +22,5 @@
     "Steuerung über Kopfhörer, Bluetooth und Auto"
   ],
   "icon": "https://raw.githubusercontent.com/SecondTrack/musik/main/Resources/Icon@2x.png",
-  "private": true
+  "private": false
 }
