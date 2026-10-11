@@ -1,0 +1,12 @@
+# Build-Ausgaben (Theos)
+.theos/
+packages/
+obj/
+*.deb
+*.dSYM/
+# macOS
+.DS_Store
+# Lokale Sicherungen und Zugangsdaten gehören NIE ins Repo
+backup*/
+.spotify-*
+*.log

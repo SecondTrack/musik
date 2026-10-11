@@ -1,0 +1,196 @@
+/* MeshMusic ("Spotify") — English base strings (identity; English = fallback).
+   Key = English base text. */
+
+// --- Tabs / navigation ---
+"Home" = "Home";
+"Browse" = "Browse";
+"Search" = "Search";
+"Radio" = "Radio";
+"Library" = "Library";
+"Coming soon" = "Coming soon";
+
+// --- Global offline download bar ---
+"↓  Downloading offline … %d%%   (%ld/%ld)" = "↓  Downloading offline … %d%%   (%ld/%ld)";
+"✓  %ld tracks saved offline" = "✓  %ld tracks saved offline";
+"Storage full — download stopped" = "Storage full — download stopped";
+"Connection error — download stopped, please restart" = "Connection error — download stopped, please restart";
+
+// --- Library ---
+"Liked Songs" = "Liked Songs";
+"Loading track list …" = "Loading track list …";
+"Couldn't load tracks." = "Couldn't load tracks.";
+"Playlist · %lu tracks · %@ free" = "Playlist · %lu tracks · %@ free";
+"Remove from downloads" = "Remove from downloads";
+"Download to listen offline" = "Download to listen offline";
+"Download removed" = "Download removed";
+"Library needs a one-time login on the computer.\n(Client ID + Secret stored, token still missing.)" = "Library needs a one-time login on the computer.\n(Client ID + Secret stored, token still missing.)";
+"Loading your playlists …" = "Loading your playlists …";
+"Session expired." = "Session expired.";
+"Couldn't load." = "Couldn't load.";
+"Playlist" = "Playlist";
+
+// --- Login ---
+"Log in with your Spotify account" = "Log in with your Spotify account";
+"Email or username" = "Email or username";
+"Password" = "Password";
+"LOG IN" = "LOG IN";
+"Connecting …" = "Connecting …";
+"Logging in …" = "Logging in …";
+"Saved login invalid — please sign in again." = "Saved login invalid — please sign in again.";
+"First login …" = "First login …";
+"✅ %@ — remembered permanently" = "✅ %@ — remembered permanently";
+"Login failed" = "Login failed";
+"Enter username and password." = "Enter username and password.";
+"Connecting to Spotify …" = "Connecting to Spotify …";
+"✅ Logged in as %@" = "✅ Logged in as %@";
+
+// --- Player ---
+"SONG FROM ALBUM" = "SONG FROM ALBUM";
+
+// --- Search ---
+"Artists, songs …" = "Artists, songs …";
+"Find millions of songs." = "Find millions of songs.";
+"Searching…" = "Searching…";
+"Too many requests – wait a moment and retry." = "Too many requests – wait a moment and retry.";
+"Nothing found." = "Nothing found.";
+
+// --- Setup ---
+"Set up" = "Set up";
+"1. Log in at developer.spotify.com/dashboard (Premium).\n2. „Create app“ → Redirect URI:\n    meshspotify://callback\n   (and check Web API) → Save.\n3. Copy the Client ID in Settings and paste it below." = "1. Log in at developer.spotify.com/dashboard (Premium).\n2. „Create app“ → Redirect URI:\n    meshspotify://callback\n   (and check Web API) → Save.\n3. Copy the Client ID in Settings and paste it below.";
+"Paste Client ID here" = "Paste Client ID here";
+"Please paste a valid Client ID." = "Please paste a valid Client ID.";
+"Opening Spotify login in the browser … you'll be returned automatically." = "Opening Spotify login in the browser … you'll be returned automatically.";
+
+// --- Start / Home ---
+"Good morning" = "Good morning";
+"Good afternoon" = "Good afternoon";
+"Good evening" = "Good evening";
+"Recently played" = "Recently played";
+"Your top tracks" = "Your top tracks";
+
+// --- Track list ---
+"‹ Back" = "‹ Back";
+"Couldn't load (offline?)." = "Couldn't load (offline?).";
+"Empty." = "Empty.";
+"✓  Available offline — tap to remove" = "✓  Available offline — tap to remove";
+"%lu tracks" = "%lu tracks";
+"%lu+ tracks" = "%lu+ tracks";
+"↓  Save offline  ·  %@  ·  %@ free" = "↓  Save offline  ·  %@  ·  %@ free";
+"Remove offline?" = "Remove offline?";
+"Delete the downloaded tracks of this playlist." = "Delete the downloaded tracks of this playlist.";
+"Cancel" = "Cancel";
+"Remove" = "Remove";
+"Fetching track list …" = "Fetching track list …";
+
+/* Browse + Radio Tabs */
+"Browse all" = "Browse all";
+"Pop" = "Pop";
+"Hip-Hop" = "Hip-Hop";
+"Rock" = "Rock";
+"Dance/Electronic" = "Dance/Electronic";
+"R&B" = "R&B";
+"Indie" = "Indie";
+"Chill" = "Chill";
+"Workout" = "Workout";
+"Focus" = "Focus";
+"Party" = "Party";
+"Jazz" = "Jazz";
+"Classical" = "Classical";
+"Metal" = "Metal";
+"Latin" = "Latin";
+"Country" = "Country";
+"Soul" = "Soul";
+"Your mixes" = "Your mixes";
+"Recent Mix" = "Recent Mix";
+"Monthly Mix" = "Monthly Mix";
+"All-Time Mix" = "All-Time Mix";
+"Your last few weeks" = "Your last few weeks";
+"Your last months" = "Your last months";
+"Your all-time favourites" = "Your all-time favourites";
+"Stations for you" = "Stations for you";
+"%@ Radio" = "%@ Radio";
+
+"Search isn't available yet." = "Search isn't available yet.";
+"Please log in again." = "Please log in again.";
+
+/* Such-Schlüssel */
+"Unlock search" = "Unlock search";
+"Spotify only allows search with your own free developer key. You set it up once, takes about 3 minutes – best on your phone or computer." = "Spotify only allows search with your own free developer key. You set it up once, takes about 3 minutes – best on your phone or computer.";
+"Open this page and log in with your Spotify account:" = "Open this page and log in with your Spotify account:";
+"First time only: accept the terms and confirm your email address if asked." = "First time only: accept the terms and confirm your email address if asked.";
+"Tap \"Create app\". Enter any name and description, e.g. \"iPod\"." = "Tap \"Create app\". Enter any name and description, e.g. \"iPod\".";
+"For \"Redirect URIs\" enter exactly this and tap \"Add\":" = "For \"Redirect URIs\" enter exactly this and tap \"Add\":";
+"Under \"Which API/SDKs\" tick \"Web API\", accept the terms and tap \"Save\"." = "Under \"Which API/SDKs\" tick \"Web API\", accept the terms and tap \"Save\".";
+"Open \"Settings\" of your new app. Copy the \"Client ID\" and tap \"View client secret\" for the secret." = "Open \"Settings\" of your new app. Copy the \"Client ID\" and tap \"View client secret\" for the secret.";
+"Type both in here. Only digits and the letters a–f – the fields fix upper case for you." = "Type both in here. Only digits and the letters a–f – the fields fix upper case for you.";
+"CLIENT ID" = "CLIENT ID";
+"CLIENT SECRET" = "CLIENT SECRET";
+"32 characters (0-9, a-f)" = "32 characters (0-9, a-f)";
+"CHECK & SAVE" = "CHECK & SAVE";
+"Later – I'll do it in Search" = "Later – I'll do it in Search";
+"Remove saved key" = "Remove saved key";
+"Client ID and Secret need exactly 32 characters each." = "Client ID and Secret need exactly 32 characters each.";
+"Client ID and Secret are the same – the secret is the second, hidden value." = "Client ID and Secret are the same – the secret is the second, hidden value.";
+"Checking key with Spotify …" = "Checking key with Spotify …";
+"✅ Search unlocked!" = "✅ Search unlocked!";
+"UNLOCK SEARCH" = "UNLOCK SEARCH";
+"Search needs your own free Spotify key. Set it up once in about 3 minutes." = "Search needs your own free Spotify key. Set it up once in about 3 minutes.";
+"Your search key no longer works. Long-press \"Search\" at the top to change it." = "Your search key no longer works. Long-press \"Search\" at the top to change it.";
+"No connection to Spotify." = "No connection to Spotify.";
+"Spotify doesn't recognize this key. Please check Client ID and Secret." = "Spotify doesn't recognize this key. Please check Client ID and Secret.";
+"Spotify error %d." = "Spotify error %d.";
+
+/* iPod-Modus */
+"Music" = "Music";
+"Shuffle Songs" = "Shuffle Songs";
+"Settings" = "Settings";
+"Now Playing" = "Now Playing";
+"Playlists" = "Playlists";
+"Recently Played" = "Recently Played";
+"Shuffle" = "Shuffle";
+"Repeat" = "Repeat";
+"Off" = "Off";
+"On" = "On";
+"All" = "All";
+"One" = "One";
+"Exit iPod mode" = "Exit iPod mode";
+"Loading …" = "Loading …";
+"Empty" = "Empty";
+"Needs a search key –" = "Needs a search key –";
+"set it up in normal mode." = "set it up in normal mode.";
+"%ld of %ld" = "%ld of %ld";
+"iPod mode (click wheel)" = "iPod mode (click wheel)";
+"Change search key" = "Change search key";
+"Color" = "Color";
+"Black" = "Black";
+"Silver" = "Silver";
+"Offline %ld/%ld" = "Offline %ld/%ld";
+"%@ songs" = "%@ songs";
+"Turn the wheel to pick a letter, press the center to add it. OK searches." = "Turn the wheel to pick a letter, press the center to add it. OK searches.";
+"Done" = "Done";
+"Could not load (offline?)" = "Could not load (offline?)";
+"Style" = "Style";
+"Modern" = "Modern";
+"Classic" = "Classic";
+"‹ Playlists" = "‹ Playlists";
+"No connection – starting offline …" = "No connection – starting offline …";
+"Waiting for Wi-Fi …" = "Waiting for Wi-Fi …";
+"Back online" = "Back online";
+"Offline – downloaded songs still play" = "Offline – downloaded songs still play";
+"Download %ld/%ld" = "Download %ld/%ld";
+
+"Background download: On" = "Background download: On";
+"Background download: Off" = "Background download: Off";
+"Background DL" = "Background DL";
+
+"Music for iPod touch · Version %@" = "Music for iPod touch · Version %@";
+"A Second Track app. We give old iPods a second life: used devices, lovingly refurbished – and new apps that make them useful again today." = "A Second Track app. We give old iPods a second life: used devices, lovingly refurbished – and new apps that make them useful again today.";
+"Visit secondtrack.de" = "Visit secondtrack.de";
+"MORE APPS FOR YOUR iPOD" = "MORE APPS FOR YOUR iPOD";
+"The App Store on your iPod" = "The App Store on your iPod";
+"Messenger, videos, browser, files and more – apps built for iPod touch 2G to 4G. Browse them all with icons, descriptions and screenshots, and open installed apps with one tap." = "Messenger, videos, browser, files and more – apps built for iPod touch 2G to 4G. Browse them all with icons, descriptions and screenshots, and open installed apps with one tap.";
+"Show in Reboot Appstore" = "Show in Reboot Appstore";
+"Download right from here – coming soon." = "Download right from here – coming soon.";
+"Not affiliated with Spotify or Apple. Spotify is a trademark of Spotify AB. iPod is a trademark of Apple Inc." = "Not affiliated with Spotify or Apple. Spotify is a trademark of Spotify AB. iPod is a trademark of Apple Inc.";
+"About this app" = "About this app";
+"About" = "About";

@@ -1,0 +1,16 @@
+{
+  "id": "musik",
+  "name": "Musik",
+  "short": "Deine Spotify-Playlists auf dem iPod",
+  "category": "Medien",
+  "status": "beta",
+  "ios": [
+    "6.1.6"
+  ],
+  "package": "de.mesh.music",
+  "version": "0.1.0",
+  "repo": "SecondTrack/musik",
+  "requires": "Spotify-Konto",
+  "license": "GPL-3.0",
+  "install": "GitHub-Release: neuestes Release, Anhang *.deb"
+}

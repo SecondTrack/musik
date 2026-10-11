@@ -1,0 +1,209 @@
+/* MeshMusic ("Spotify") — Deutsche Übersetzungen.
+   Schlüssel = englischer Basistext, Wert = Deutsch. */
+
+// --- Tabs / Navigation ---
+"Home" = "Start";
+"Browse" = "Browse";
+"Search" = "Suche";
+"Radio" = "Radio";
+"Library" = "Bibliothek";
+"Coming soon" = "Kommt bald";
+
+// --- Globale Offline-Download-Leiste ---
+"↓  Downloading offline … %d%%   (%ld/%ld)" = "↓  Lädt offline … %d%%   (%ld/%ld)";
+"✓  %ld tracks saved offline" = "✓  %ld Titel offline gespeichert";
+"Storage full — download stopped" = "Speicher voll — Download gestoppt";
+"Connection error — download stopped, please restart" = "Verbindungsfehler — Download gestoppt, bitte neu starten";
+
+// --- Bibliothek ---
+"Liked Songs" = "Lieblingssongs";
+"Loading track list …" = "Lädt Titelliste …";
+"Couldn't load tracks." = "Titel konnten nicht geladen werden.";
+"Playlist · %lu tracks · %@ free" = "Playlist · %lu Titel · %@ frei";
+"Remove from downloads" = "Aus Downloads entfernen";
+"Download to listen offline" = "Zum Offline-Hören herunterladen";
+"Download removed" = "Offline-Download entfernt";
+"Library needs a one-time login on the computer.\n(Client ID + Secret stored, token still missing.)" = "Bibliothek braucht einen einmaligen Login am Computer.\n(Client ID + Secret hinterlegt, Token fehlt noch.)";
+"Loading your playlists …" = "Lädt deine Playlists …";
+"Session expired." = "Anmeldung abgelaufen.";
+"Couldn't load." = "Konnte nicht laden.";
+"Playlist" = "Playlist";
+
+// --- Login ---
+"Log in with your Spotify account" = "Mit deinem Spotify-Konto anmelden";
+"Email or username" = "E-Mail oder Benutzername";
+"Password" = "Passwort";
+"LOG IN" = "ANMELDEN";
+"Connecting …" = "Verbinde …";
+"Logging in …" = "Melde an …";
+"Saved login invalid — please sign in again." = "Gespeicherte Anmeldung ungültig — bitte neu.";
+"First login …" = "Erstanmeldung …";
+"✅ %@ — remembered permanently" = "✅ %@ — dauerhaft gemerkt";
+"Login failed" = "Login fehlgeschlagen";
+"Enter username and password." = "Benutzername und Passwort eingeben.";
+"Connecting to Spotify …" = "Verbinde mit Spotify …";
+"✅ Logged in as %@" = "✅ Angemeldet als %@";
+
+// --- Player ---
+"SONG FROM ALBUM" = "SONG VOM ALBUM";
+
+// --- Suche ---
+"Artists, songs …" = "Künstler, Songs …";
+"Find millions of songs." = "Finde Millionen Songs.";
+"Searching…" = "Suche läuft…";
+"Too many requests – wait a moment and retry." = "Zu viele Anfragen – kurz warten und erneut.";
+"Nothing found." = "Nichts gefunden.";
+
+// --- Einrichten ---
+"Set up" = "Einrichten";
+"1. Log in at developer.spotify.com/dashboard (Premium).\n2. „Create app“ → Redirect URI:\n    meshspotify://callback\n   (and check Web API) → Save.\n3. Copy the Client ID in Settings and paste it below." = "1. Auf developer.spotify.com/dashboard einloggen (Premium).\n2. „Create app“ → Redirect URI:\n    meshspotify://callback\n   (und Web API ankreuzen) → Save.\n3. In Settings die Client ID kopieren und unten einfügen.";
+"Paste Client ID here" = "Client ID hier einfügen";
+"Please paste a valid Client ID." = "Bitte gültige Client ID einfügen.";
+"Opening Spotify login in the browser … you'll be returned automatically." = "Öffne Spotify-Login im Browser … danach kommst du automatisch zurück.";
+
+// --- Start ---
+"Good morning" = "Guten Morgen";
+"Good afternoon" = "Guten Tag";
+"Good evening" = "Guten Abend";
+"Recently played" = "Zuletzt gehört";
+"Your top tracks" = "Deine Top-Titel";
+
+// --- Titelliste ---
+"‹ Back" = "‹ Zurück";
+"Couldn't load (offline?)." = "Konnte nicht laden (offline?).";
+"Empty." = "Leer.";
+"✓  Available offline — tap to remove" = "✓  Offline verfügbar — tippen zum Entfernen";
+"%lu tracks" = "%lu Titel";
+"%lu+ tracks" = "%lu+ Titel";
+"↓  Save offline  ·  %@  ·  %@ free" = "↓  Offline speichern  ·  %@  ·  %@ frei";
+"Remove offline?" = "Offline entfernen?";
+"Delete the downloaded tracks of this playlist." = "Die heruntergeladenen Titel dieser Playlist löschen.";
+"Cancel" = "Abbrechen";
+"Remove" = "Entfernen";
+"Fetching track list …" = "Hole Titelliste …";
+
+/* Browse + Radio Tabs */
+"Browse all" = "Alles entdecken";
+"Pop" = "Pop";
+"Hip-Hop" = "Hip-Hop";
+"Rock" = "Rock";
+"Dance/Electronic" = "Dance/Electronic";
+"R&B" = "R&B";
+"Indie" = "Indie";
+"Chill" = "Chill";
+"Workout" = "Workout";
+"Focus" = "Fokus";
+"Party" = "Party";
+"Jazz" = "Jazz";
+"Classical" = "Klassik";
+"Metal" = "Metal";
+"Latin" = "Latin";
+"Country" = "Country";
+"Soul" = "Soul";
+"Your mixes" = "Deine Mixe";
+"Recent Mix" = "Aktueller Mix";
+"Monthly Mix" = "Monats-Mix";
+"All-Time Mix" = "Allzeit-Mix";
+"Your last few weeks" = "Deine letzten Wochen";
+"Your last months" = "Deine letzten Monate";
+"Your all-time favourites" = "Deine Allzeit-Favoriten";
+"Stations for you" = "Stationen für dich";
+"%@ Radio" = "%@ Radio";
+
+/* Login mit Code über ein anderes Gerät */
+"On your phone or computer open" = "Öffne auf deinem Handy oder Computer";
+"and enter this code:" = "und gib diesen Code ein:";
+"LOG IN WITH PHONE" = "MIT HANDY ANMELDEN";
+"Log in with password instead" = "Stattdessen mit Passwort anmelden";
+"Requesting code from Spotify …" = "Hole Code von Spotify …";
+"Waiting for confirmation …" = "Warte auf Bestätigung am anderen Gerät …";
+"Confirmed – logging in …" = "Bestätigt – melde an …";
+"TRY AGAIN" = "NOCHMAL VERSUCHEN";
+"NEW CODE" = "NEUER CODE";
+"Your Spotify login expired. Confirm once on your phone:" = "Deine Spotify-Anmeldung ist abgelaufen. Einmal am Handy bestätigen:";
+
+"Search isn't available yet." = "Die Suche gibt es noch nicht.";
+"Please log in again." = "Bitte neu anmelden.";
+
+/* Such-Schlüssel */
+"Unlock search" = "Suche freischalten";
+"Spotify only allows search with your own free developer key. You set it up once, takes about 3 minutes – best on your phone or computer." = "Spotify erlaubt die Suche nur mit einem eigenen, kostenlosen Entwickler-Schlüssel. Du richtest ihn einmal ein, das dauert etwa 3 Minuten – am besten am Handy oder Computer.";
+"Open this page and log in with your Spotify account:" = "Öffne diese Seite und melde dich mit deinem Spotify-Konto an:";
+"First time only: accept the terms and confirm your email address if asked." = "Nur beim ersten Mal: Nutzungsbedingungen akzeptieren und, falls gefragt, deine E-Mail-Adresse bestätigen.";
+"Tap \"Create app\". Enter any name and description, e.g. \"iPod\"." = "Tippe auf „Create app“. Name und Beschreibung sind egal, z. B. „iPod“.";
+"For \"Redirect URIs\" enter exactly this and tap \"Add\":" = "Bei „Redirect URIs“ genau das hier eintragen und auf „Add“ tippen:";
+"Under \"Which API/SDKs\" tick \"Web API\", accept the terms and tap \"Save\"." = "Bei „Which API/SDKs“ einen Haken bei „Web API“ setzen, Bedingungen akzeptieren und auf „Save“ tippen.";
+"Open \"Settings\" of your new app. Copy the \"Client ID\" and tap \"View client secret\" for the secret." = "Öffne bei deiner neuen App die „Settings“. Dort steht die „Client ID“; das Secret siehst du über „View client secret“.";
+"Type both in here. Only digits and the letters a–f – the fields fix upper case for you." = "Gib beide hier ein. Es kommen nur Ziffern und die Buchstaben a–f vor – Großbuchstaben korrigieren die Felder selbst.";
+"CLIENT ID" = "CLIENT ID";
+"CLIENT SECRET" = "CLIENT SECRET";
+"32 characters (0-9, a-f)" = "32 Zeichen (0-9, a-f)";
+"CHECK & SAVE" = "PRÜFEN & SPEICHERN";
+"Later – I'll do it in Search" = "Später – mache ich in der Suche";
+"Remove saved key" = "Gespeicherten Schlüssel entfernen";
+"Client ID and Secret need exactly 32 characters each." = "Client ID und Secret haben jeweils genau 32 Zeichen.";
+"Client ID and Secret are the same – the secret is the second, hidden value." = "Client ID und Secret sind gleich – das Secret ist der zweite, versteckte Wert.";
+"Checking key with Spotify …" = "Prüfe den Schlüssel bei Spotify …";
+"✅ Search unlocked!" = "✅ Suche freigeschaltet!";
+"UNLOCK SEARCH" = "SUCHE FREISCHALTEN";
+"Search needs your own free Spotify key. Set it up once in about 3 minutes." = "Für die Suche brauchst du einen eigenen, kostenlosen Spotify-Schlüssel. Einmal einrichten, dauert etwa 3 Minuten.";
+"Your search key no longer works. Long-press \"Search\" at the top to change it." = "Dein Such-Schlüssel funktioniert nicht mehr. Halte oben „Suche“ gedrückt, um ihn zu ändern.";
+"No connection to Spotify." = "Keine Verbindung zu Spotify.";
+"Spotify doesn't recognize this key. Please check Client ID and Secret." = "Spotify kennt diesen Schlüssel nicht. Bitte Client ID und Secret prüfen.";
+"Spotify error %d." = "Spotify meldet Fehler %d.";
+
+/* iPod-Modus */
+"Music" = "Musik";
+"Shuffle Songs" = "Zufällige Titel";
+"Settings" = "Einstellungen";
+"Now Playing" = "Sie hören";
+"Playlists" = "Playlists";
+"Recently Played" = "Zuletzt gehört";
+"Shuffle" = "Zufällig";
+"Repeat" = "Wiederholen";
+"Off" = "Aus";
+"On" = "Ein";
+"All" = "Alle";
+"One" = "Eins";
+"Exit iPod mode" = "iPod-Modus beenden";
+"Loading …" = "Laden …";
+"Empty" = "Leer";
+"Needs a search key –" = "Braucht einen Such-Schlüssel –";
+"set it up in normal mode." = "im normalen Modus einrichten.";
+"%ld of %ld" = "%ld von %ld";
+"iPod mode (click wheel)" = "iPod-Modus (Click Wheel)";
+"Change search key" = "Such-Schlüssel ändern";
+"Color" = "Farbe";
+"Black" = "Schwarz";
+"Silver" = "Silber";
+"Offline %ld/%ld" = "Offline %ld/%ld";
+"%@ songs" = "%@ Titel";
+"Turn the wheel to pick a letter, press the center to add it. OK searches." = "Rad drehen wählt einen Buchstaben, die Mitte fügt ihn hinzu. OK startet die Suche.";
+"Done" = "Fertig";
+"Could not load (offline?)" = "Konnte nicht laden (offline?)";
+"Style" = "Stil";
+"Modern" = "Modern";
+"Classic" = "Klassisch";
+"‹ Playlists" = "‹ Playlists";
+"No connection – starting offline …" = "Keine Verbindung – starte offline …";
+"Waiting for Wi-Fi …" = "Warte auf WLAN …";
+"Back online" = "Wieder online";
+"Offline – downloaded songs still play" = "Offline – heruntergeladene Songs laufen weiter";
+
+"Download %ld/%ld" = "Download %ld/%ld";
+
+"Background download: On" = "Download im Hintergrund: Ein";
+"Background download: Off" = "Download im Hintergrund: Aus";
+"Background DL" = "Hintergrund-DL";
+
+"Music for iPod touch · Version %@" = "Musik für iPod touch · Version %@";
+"A Second Track app. We give old iPods a second life: used devices, lovingly refurbished – and new apps that make them useful again today." = "Eine App von Second Track. Wir geben alten iPods ein zweites Leben: gebrauchte Geräte, liebevoll aufbereitet – und neue Apps, mit denen sie heute wieder etwas taugen.";
+"Visit secondtrack.de" = "secondtrack.de besuchen";
+"MORE APPS FOR YOUR iPOD" = "MEHR APPS FÜR DEINEN iPOD";
+"The App Store on your iPod" = "Der App Store auf deinem iPod";
+"Messenger, videos, browser, files and more – apps built for iPod touch 2G to 4G. Browse them all with icons, descriptions and screenshots, and open installed apps with one tap." = "Messenger, Videos, Browser, Dateien und mehr – Apps gemacht für iPod touch 2G bis 4G. Alle Apps mit Icon, Beschreibung und Vorschau, installierte öffnest du mit einem Tipp.";
+"Show in Reboot Appstore" = "Im Reboot Appstore ansehen";
+"Download right from here – coming soon." = "Direkt hier herunterladen – kommt bald.";
+"Not affiliated with Spotify or Apple. Spotify is a trademark of Spotify AB. iPod is a trademark of Apple Inc." = "Nicht mit Spotify oder Apple verbunden. Spotify ist eine Marke der Spotify AB, iPod eine Marke von Apple Inc.";
+"About this app" = "Über diese App";
+"About" = "Über";

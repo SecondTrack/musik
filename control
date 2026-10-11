@@ -1,0 +1,9 @@
+Package: de.mesh.music
+Name: MeshMusic
+Version: 0.1.0
+Architecture: iphoneos-arm
+Description: Musik-Player im Spotify-Look fuer iOS 6
+Maintainer: Second Track
+Author: Second Track
+Section: Multimedia
+Depends: firmware (>= 6.0)
