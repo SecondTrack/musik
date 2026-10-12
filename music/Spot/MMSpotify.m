@@ -856,10 +856,14 @@ static NSDictionary* spInternalGet(NSString*path,int*st,BOOL*handled){
         NSMutableArray*out=[NSMutableArray array];
         for(NSUInteger i=0;i<[its count];i++){
             NSString*u=its[i][@"uri"]; if(![u isKindOfClass:[NSString class]]||![u hasPrefix:@"spotify:playlist:"]) continue;   // Ordner-Marker überspringen
-            NSDictionary*a=(i<[meta count]&&[meta[i] isKindOfClass:[NSDictionary class]])?meta[i][@"attributes"]:nil;
+            NSDictionary*mi=(i<[meta count]&&[meta[i] isKindOfClass:[NSDictionary class]])?meta[i]:nil, *a=mi[@"attributes"];
+            id len=mi[@"length"];
+            if([len isKindOfClass:[NSNumber class]] && [len integerValue]==0) continue;   // leere Playlists gar nicht zeigen
             NSString*hex=b64ToHex(a[@"picture"]);
-            [out addObject:@{@"id":[u substringFromIndex:17],@"name":[a[@"name"] isKindOfClass:[NSString class]]?a[@"name"]:@"Playlist",
-                             @"images":hex?@[@{@"url":[@"https://i.scdn.co/image/" stringByAppendingString:hex]}]:@[]}];
+            NSMutableDictionary*pl=[@{@"id":[u substringFromIndex:17],@"name":[a[@"name"] isKindOfClass:[NSString class]]?a[@"name"]:@"Playlist",
+                             @"images":hex?@[@{@"url":[@"https://i.scdn.co/image/" stringByAppendingString:hex]}]:@[]} mutableCopy];
+            if([len isKindOfClass:[NSNumber class]]) pl[@"tracks"]=@{@"total":len};
+            [out addObject:pl];
         }
         return @{@"items":out};
     }

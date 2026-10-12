@@ -154,6 +154,8 @@ static NSArray* tracksFromItems(NSArray*items){
             id tr=p[@"tracks"]; NSString*sub=([tr isKindOfClass:[NSDictionary class]] && tr[@"total"])?LF(@"%@ songs",tr[@"total"]):nil;
             NSMutableDictionary*e=[[ws item:name sub:sub action:^{ [ws openTracks:name path:[NSString stringWithFormat:@"playlists/%@?market=from_token",pid]]; }] mutableCopy];
             e[@"cover"]=[MMCovers bestURL:p[@"images"]]?:@"";
+            if(![e[@"cover"] length]) [MMCovers playlistCover:pid completion:^(NSString*mu){   // kein eigenes Bild -> Mosaik
+                if(mu.length){ e[@"cover"]=mu; MMModeBase*ss=ws; if(ss && [ss top]==m) [ss levelChanged]; } }];
             [it addObject:e];
         }
         [ws fill:m items:it];
