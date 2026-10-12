@@ -59,7 +59,9 @@
             NSString*cov=[MMCovers bestURL:p[@"images"]]?:@"";
             NSMutableDictionary*tile=[@{@"name":p[@"name"]?:L(@"Playlist"),@"path":[NSString stringWithFormat:@"playlists/%@?market=from_token",p[@"id"]],@"cover":cov} mutableCopy];
             if(!cov.length) [MMCovers playlistCover:p[@"id"] completion:^(NSString*mu){   // kein eigenes Bild -> Mosaik wie in der Bibliothek
-                if(mu.length && [_quick containsObject:tile]){ tile[@"cover"]=mu; [self render]; } }];
+                if(!mu.length) return;
+                tile[@"cover"]=mu;                                 // kann sofort (aus dem Speicher) kommen -> erst setzen,
+                if([_quick containsObject:tile]) [self render]; }];   // dann nur neu zeichnen, wenn die Kacheln schon stehen
             [q addObject:tile];
             if(q.count>=6) break;
         }

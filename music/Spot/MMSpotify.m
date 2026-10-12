@@ -854,11 +854,13 @@ static NSDictionary* spInternalGet(NSString*path,int*st,BOOL*handled){
         if(!j) return nil;
         NSArray*its=j[@"contents"][@"items"], *meta=j[@"contents"][@"metaItems"];
         NSMutableArray*out=[NSMutableArray array];
+        // Spotify lässt "length" bei leeren Playlists weg (0 = Standardwert). Nur wenn überhaupt Längen kommen, fehlende als leer werten.
+        BOOL haveLen=NO; for(id mi in meta) if([mi isKindOfClass:[NSDictionary class]] && [mi[@"length"] isKindOfClass:[NSNumber class]]){ haveLen=YES; break; }
         for(NSUInteger i=0;i<[its count];i++){
             NSString*u=its[i][@"uri"]; if(![u isKindOfClass:[NSString class]]||![u hasPrefix:@"spotify:playlist:"]) continue;   // Ordner-Marker überspringen
             NSDictionary*mi=(i<[meta count]&&[meta[i] isKindOfClass:[NSDictionary class]])?meta[i]:nil, *a=mi[@"attributes"];
             id len=mi[@"length"];
-            if([len isKindOfClass:[NSNumber class]] && [len integerValue]==0) continue;   // leere Playlists gar nicht zeigen
+            if(([len isKindOfClass:[NSNumber class]] && [len integerValue]==0) || (haveLen && !len)) continue;   // leere Playlists gar nicht zeigen
             NSString*hex=b64ToHex(a[@"picture"]);
             NSMutableDictionary*pl=[@{@"id":[u substringFromIndex:17],@"name":[a[@"name"] isKindOfClass:[NSString class]]?a[@"name"]:@"Playlist",
                              @"images":hex?@[@{@"url":[@"https://i.scdn.co/image/" stringByAppendingString:hex]}]:@[]} mutableCopy];
