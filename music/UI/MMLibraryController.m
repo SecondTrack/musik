@@ -7,7 +7,6 @@
 #import "MeshL10n.h"
 #import "MMKeySetupController.h"
 #import "MMSheet.h"
-#import "MMArtPlayer.h"
 #import "MMKeepAlive.h"
 #import "MMAboutView.h"
 
@@ -228,18 +227,13 @@
     // über die ganze App legen (auch über Tab- und Player-Leiste)
     UIView*host=[MMRootController shared].view;
     [MMSheet showIn:host title:L(@"Settings") subtitle:nil
-            options:@[L(@"Look: iPod, Orbit, Line …"),([MMSpotify hasSearchKey]?L(@"Change search key"):L(@"Unlock search")),
-                      ([MMKeepAlive enabled]?L(@"Background download: On"):L(@"Background download: Off")),
-                      LF(@"Player: %@",[MMArtPlayer nameOf:[MMArtPlayer style]]),L(@"About this app")]
+            options:@[L(@"Look: Wheel, Orbit, Pulse …"),([MMSpotify hasSearchKey]?L(@"Change search key"):L(@"Unlock search")),
+                      ([MMKeepAlive enabled]?L(@"Background download: On"):L(@"Background download: Off")),L(@"About this app")]
                done:^(NSInteger i){ if(i>=0) [self settingsChoice:i]; }];
 }
 - (void)settingsChoice:(NSInteger)i {
     if(i==2){ [MMKeepAlive setEnabled:![MMKeepAlive enabled]]; [self openSettings]; return; }   // umschalten, Panel zeigt neuen Stand
-    if(i==3){   // Player-Stil weiterschalten, Panel zeigt neuen Stand
-        NSArray*st=[MMArtPlayer styles]; NSUInteger k=[st indexOfObject:[MMArtPlayer style]];
-        [MMArtPlayer setStyle:st[(k+1)%st.count]]; [self openSettings]; return;
-    }
-    if(i==4){ [MMAboutView showIn:[MMRootController shared].view]; return; }
+    if(i==3){ [MMAboutView showIn:[MMRootController shared].view]; return; }
     if(i==0){   // andere Oberfläche wählen
         NSArray*ms=@[@"ipod",@"orbit",@"line"]; NSMutableArray*o=[NSMutableArray array];
         for(NSString*m in ms) [o addObject:[MMRootController nameOfUIMode:m]];

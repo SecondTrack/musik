@@ -463,10 +463,10 @@ static NSArray* shuffledFrom(NSArray*list,NSInteger idx){
 }
 // ---- Oberflächen: spotify (normal), ipod (Klickrad), orbit, line ----
 + (NSString *)nameOfUIMode:(NSString *)m {
-    if([m isEqualToString:@"ipod"]) return L(@"iPod mode");
-    if([m isEqualToString:@"orbit"]) return L(@"Orbit mode");
-    if([m isEqualToString:@"line"]) return L(@"Line mode");
-    return L(@"Normal view");
+    if([m isEqualToString:@"ipod"]) return @"Wheel";     // Namen bleiben in allen Sprachen gleich
+    if([m isEqualToString:@"orbit"]) return @"Orbit";
+    if([m isEqualToString:@"line"]) return @"Pulse";
+    return @"Classic";
 }
 - (NSString *)uiMode {
     NSString*m=[[NSUserDefaults standardUserDefaults] stringForKey:@"uiMode"];
@@ -535,7 +535,9 @@ static NSArray* shuffledFrom(NSArray*list,NSInteger idx){
 - (void)openPlayer {
     if([self.presentedViewController isKindOfClass:[MMPlayerController class]]) return;  // schon offen
     if(self.presentedViewController){ [self dismissViewControllerAnimated:NO completion:nil]; }
-    MMPlayerController*pc=[[MMArtPlayer style] isEqualToString:@"standard"]?[[MMPlayerController alloc] init]:[[MMArtPlayer alloc] init];
+    NSString*um=[self uiMode];   // jede Oberfläche hat ihren eigenen Player
+    if([um isEqualToString:@"orbit"]||[um isEqualToString:@"line"]){ [self openPlayerWithStyle:um]; return; }
+    MMPlayerController*pc=[[MMPlayerController alloc] init];
     pc.trackTitle=_curTitle; pc.trackArtist=_curArtist; pc.coverURL=_curCover;
     pc.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
     _player=pc;

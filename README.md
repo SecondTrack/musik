@@ -1,6 +1,6 @@
-# Music
+# Riff
 
-**A native Spotify client for the iPod touch 4 on iOS 6 – no web player, no proxy server.**
+**A music player for your Spotify account on the iPod touch 4 with iOS 6 – no web player, no proxy server.**
 
 The official Spotify app dropped iOS 6 years ago. This one talks to Spotify directly from the iPod: it opens its own connection to a Spotify access point, fetches your library and playlists, downloads the encrypted audio from Spotify's CDN, decrypts it and decodes the Ogg Vorbis on the device.
 

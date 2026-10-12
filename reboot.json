@@ -1,14 +1,14 @@
 {
   "id": "musik",
-  "name": "Music",
-  "short": "Your Spotify playlists on the iPod",
+  "name": "Riff",
+  "short": "Music for your Spotify account",
   "category": "Media",
   "status": "beta",
   "ios": [
     "6.1.6"
   ],
   "package": "de.mesh.music",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "repo": "SecondTrack/musik",
   "requires": "Spotify-Konto",
   "license": "GPL-3.0",
@@ -23,8 +23,8 @@
   ],
   "icon": "https://raw.githubusercontent.com/SecondTrack/musik/main/Resources/Icon@2x.png",
   "private": false,
-  "name_de": "Musik",
-  "short_de": "Deine Spotify-Playlists auf dem iPod",
+  "name_de": "Riff",
+  "short_de": "Musik für dein Spotify-Konto",
   "category_de": "Medien",
   "text_de": "Suche, Bibliothek, Playlists und Wiedergabe mit nahtlosem Übergang dank Vorladen. Playlists lassen sich für unterwegs offline speichern, Lenkrad- und Bluetooth-Tasten im Auto funktionieren.",
   "features_de": [

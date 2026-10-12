@@ -1,6 +1,5 @@
 #import "MMClassicController.h"
 #import "MMRootController.h"
-#import "MMArtPlayer.h"
 #import "MMSpotify.h"
 #import "MMAudio.h"
 #import "MMCovers.h"
@@ -15,8 +14,6 @@ static UIColor* RGB(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 gre
 static CAGradientLayer* grad(CGRect f,UIColor*a,UIColor*b){ CAGradientLayer*g=[CAGradientLayer layer]; g.frame=f; g.colors=@[(id)a.CGColor,(id)b.CGColor]; return g; }
 static BOOL isBlack(void){ return [[[NSUserDefaults standardUserDefaults] stringForKey:@"ipodColor"] isEqualToString:@"black"]; }
 // Stil: modern (Standard, flach + Helvetica Neue) oder klassisch (wie das Original von 2007)
-// Im iPod-Modus gibt es nur die abstrakten Player (der Standard-Player passt nicht dazu) -> Vorgabe Orbit
-static NSString *artStyle(void){ NSString*s=[MMArtPlayer style]; return [s isEqualToString:@"standard"]?@"orbit":s; }
 static BOOL isModern(void){ return ![[[NSUserDefaults standardUserDefaults] stringForKey:@"ipodStyle"] isEqualToString:@"classic"]; }
 // Schrift: w 0 = leicht, 1 = normal, 2 = betont
 static UIFont* F(CGFloat size,int w){
@@ -388,10 +385,6 @@ static NSArray* searchLetters(void){
     [it addObject:[self item:L(@"Settings") arrow:YES action:^{ [ws pushMenu:[ws settingsMenu]]; }]];
     if([[MMRootController shared] nowPlaying]){
         [it addObject:[self item:L(@"Now Playing") arrow:YES action:^{ [ws pushNowPlaying]; }]];
-        // abstrakter Player (Orbit/Farbfeld/Linie) als Vollbild über dem iPod-Modus
-        [it addObject:[self item:LF(@"Player: %@",[MMArtPlayer nameOf:artStyle()]) arrow:YES action:^{
-            if([[MMArtPlayer style] isEqualToString:@"standard"]) [MMArtPlayer setStyle:artStyle()];
-            [[MMRootController shared] openPlayer]; }]];
     }
     return [self menu:@"iPod" items:it];
 }
@@ -412,14 +405,11 @@ static NSArray* searchLetters(void){
         [self item:L(@"Repeat") value:rep[r.repeatMode] action:^{ r.repeatMode=(r.repeatMode+1)%3; [ws replaceTop:[ws settingsMenu]]; }],
         [self item:L(@"Color") value:(isBlack()?L(@"Black"):L(@"Silver")) action:^{ [ws toggleColor]; }],
         [self item:L(@"Style") value:(isModern()?L(@"Modern"):L(@"Classic")) action:^{ [ws toggleStyle]; }],
-        [self item:L(@"Player") value:[MMArtPlayer nameOf:artStyle()] action:^{
-            NSArray*st=@[@"orbit",@"line"]; NSUInteger k=[st indexOfObject:artStyle()];
-            [MMArtPlayer setStyle:st[(k+1)%st.count]]; [ws replaceTop:[ws settingsMenu]]; }],
         [self item:L(@"Background DL") value:([MMKeepAlive enabled]?L(@"On"):L(@"Off")) action:^{ [MMKeepAlive setEnabled:![MMKeepAlive enabled]]; [ws replaceTop:[ws settingsMenu]]; }],
         [self item:L(@"About") arrow:YES action:^{ [MMAboutView showIn:[MMRootController shared].view]; }],
-        [self item:L(@"Orbit mode") arrow:NO action:^{ [[MMRootController shared] setUIMode:@"orbit"]; }],
-        [self item:L(@"Line mode") arrow:NO action:^{ [[MMRootController shared] setUIMode:@"line"]; }],
-        [self item:L(@"Exit iPod mode") arrow:NO action:^{ [[MMRootController shared] setClassicMode:NO]; }],
+        [self item:LF(@"Look: %@",@"Orbit") arrow:NO action:^{ [[MMRootController shared] setUIMode:@"orbit"]; }],
+        [self item:LF(@"Look: %@",@"Pulse") arrow:NO action:^{ [[MMRootController shared] setUIMode:@"line"]; }],
+        [self item:LF(@"Look: %@",@"Classic") arrow:NO action:^{ [[MMRootController shared] setClassicMode:NO]; }],
     ]];
 }
 // Farbe wechseln: alles neu aufbauen, Menüstapel und Auswahl bleiben

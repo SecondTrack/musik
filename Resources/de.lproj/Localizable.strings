@@ -239,3 +239,5 @@
 "Background download" = "Hintergrund-Download";
 "↓  Saving … %ld of %ld" = "↓  Wird gespeichert … %ld von %ld";
 "↓ %ld of %ld" = "↓ %ld von %ld";
+"Look: %@" = "Ansicht: %@";
+"Look: Wheel, Orbit, Pulse …" = "Ansicht: Wheel, Orbit, Pulse …";

@@ -104,7 +104,7 @@
     [it addObject:[self item:L(@"Background download") sub:([MMKeepAlive enabled]?L(@"On"):L(@"Off")) action:^{ [MMKeepAlive setEnabled:![MMKeepAlive enabled]]; [ws refreshSettings]; }]];
     for(NSString*m in @[@"orbit",@"line",@"ipod",@"spotify"]){
         if([m isEqualToString:mine]) continue;
-        [it addObject:[self item:[MMRootController nameOfUIMode:m] sub:L(@"Switch look") action:^{ [[MMRootController shared] setUIMode:m]; }]];
+        [it addObject:[self item:LF(@"Look: %@",[MMRootController nameOfUIMode:m]) sub:nil action:^{ [[MMRootController shared] setUIMode:m]; }]];
     }
     [it addObject:[self item:L(@"About") sub:nil action:^{ [MMAboutView showIn:[MMRootController shared].view]; }]];
     return [self level:L(@"Settings") items:it];

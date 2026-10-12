@@ -14,5 +14,5 @@
 + (UIFont *)body;       // 15
 + (UIFont *)sub;        // 13 (muted)
 + (UIFont *)tab;        // 10
-+ (UIImage *)logo:(CGFloat)size;   // echtes Spotify-Logo (grüner Kreis + Wellen)
++ (UIImage *)logo:(CGFloat)size;   // eigenes Zeichen: grüner Kreis mit Puls-Linie
 @end

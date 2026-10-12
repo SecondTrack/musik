@@ -308,15 +308,9 @@ static NSArray *palette(UIImage *img){
     MMRootController*r=[MMRootController shared];
     NSArray*rep=@[L(@"Repeat: Off"),L(@"Repeat: All"),L(@"Repeat: One")];
     NSMutableArray*opts=[NSMutableArray arrayWithObjects:(r.shuffle?L(@"Shuffle: On"):L(@"Shuffle: Off")),rep[r.repeatMode%3],nil];
-    for(NSString*s in [MMArtPlayer styles]) [opts addObject:[NSString stringWithFormat:@"%@%@",[s isEqualToString:_style]?@"✓  ":@"",[MMArtPlayer nameOf:s]]];
-    [MMSheet showIn:self.view title:L(@"Player") subtitle:nil options:opts done:^(NSInteger i){
+    [MMSheet showIn:self.view title:[_style isEqualToString:@"line"]?@"Pulse":@"Orbit" subtitle:nil options:opts done:^(NSInteger i){
         if(i==0){ [r setShuffle:!r.shuffle]; return; }
         if(i==1){ r.repeatMode=(r.repeatMode+1)%3; return; }
-        if(i>=2){
-            NSString*s=[MMArtPlayer styles][i-2]; if([s isEqualToString:_style]) return;
-            [MMArtPlayer setStyle:s];
-            [self dismissViewControllerAnimated:NO completion:^{ [[MMRootController shared] openPlayer]; }];
-        }
     }];
 }
 

@@ -4,10 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key><string>en</string>
 	<key>CFBundleLocalizations</key><array><string>en</string><string>de</string></array>
-	<key>CFBundleDisplayName</key><string>Spotify</string>
+	<key>CFBundleDisplayName</key><string>Riff</string>
 	<key>CFBundleExecutable</key><string>MeshMusic</string>
 	<key>CFBundleIdentifier</key><string>de.mesh.music</string>
-	<key>CFBundleName</key><string>Spotify</string>
+	<key>CFBundleName</key><string>Riff</string>
 	<key>CFBundlePackageType</key><string>APPL</string>
 	<key>CFBundleVersion</key><string>0.1</string>
 	<key>LSRequiresIPhoneOS</key><true/>
