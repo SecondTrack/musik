@@ -95,7 +95,9 @@ static MMRootController *gRoot;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dlError:) name:@"MMDownloadError" object:nil];
     // Auto/Bluetooth: Fernsteuer-Tasten + Unterbrechungen (sonst „streitet" es mit der Stock-Musik-App)
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioInterruption:) name:AVAudioSessionInterruptionNotification object:nil];
+    if (&AVAudioSessionInterruptionNotification != NULL)
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioInterruption:) name:AVAudioSessionInterruptionNotification object:nil];
+    else [[AVAudioSession sharedInstance] setDelegate:(id<AVAudioSessionDelegate>)self];   // iOS 5: Unterbrechungen über den Delegate
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view.backgroundColor = [SpotTheme bg];
     CGFloat W=self.view.bounds.size.width, H=self.view.bounds.size.height;
@@ -245,6 +247,11 @@ static MMRootController *gRoot;
     if(type==AVAudioSessionInterruptionTypeBegan){ [MMAudio setPaused:YES]; [self drawNpPlay]; [self updateNowPlaying]; }
     else { NSInteger opt=[n.userInfo[AVAudioSessionInterruptionOptionKey] integerValue];
         if(opt & AVAudioSessionInterruptionOptionShouldResume){ [MMAudio setPaused:NO]; [self drawNpPlay]; [self updateNowPlaying]; } }
+}
+// iOS 5: Anruf/Wecker unterbricht -> pausieren, danach weiter, wenn das System es erlaubt
+- (void)beginInterruption { [MMAudio setPaused:YES]; [self drawNpPlay]; [self updateNowPlaying]; }
+- (void)endInterruptionWithFlags:(NSUInteger)flags {
+    if (flags & AVAudioSessionInterruptionFlags_ShouldResume) { [MMAudio setPaused:NO]; [self drawNpPlay]; [self updateNowPlaying]; }
 }
 - (void)updateNowPlaying {
     Class c=NSClassFromString(@"MPNowPlayingInfoCenter"); if(!c) return;

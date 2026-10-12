@@ -1,4 +1,5 @@
 #import "MMClassicController.h"
+#import "SpotTheme.h"
 #import "MMRootController.h"
 #import "MMSpotify.h"
 #import "MMAudio.h"
@@ -59,7 +60,7 @@ typedef NS_ENUM(NSInteger, MMWheelButton) { MMWheelCenter, MMWheelMenu, MMWheelP
     UIColor*lab=modern?(black?RGB(150,150,156):RGB(160,160,166)):(black?RGB(185,185,190):RGB(165,165,170));
     UILabel*menu=[[UILabel alloc] initWithFrame:CGRectMake(c.x-60,c.y-_rOut+(modern?16:12),120,20)];
     menu.textAlignment=NSTextAlignmentCenter; menu.backgroundColor=[UIColor clearColor]; menu.userInteractionEnabled=NO;
-    if(modern) menu.attributedText=[[NSAttributedString alloc] initWithString:@"MENU" attributes:@{NSFontAttributeName:F(12,2),NSForegroundColorAttributeName:lab,NSKernAttributeName:@2.5}];
+    if(modern) [SpotTheme spaced:menu text:@"MENU" font:F(12,2) color:lab kern:2.5];
     else { menu.text=@"MENU"; menu.font=[UIFont fontWithName:@"Helvetica-Bold" size:15]; menu.textColor=lab; }
     [self addSubview:menu];
     CGFloat gi=modern?34:30;

@@ -92,7 +92,7 @@ static UIFont *thin(CGFloat s){ return [UIFont fontWithName:@"HelveticaNeue-Ultr
     if(!it.count){ _selTitle.text=@""; _selSub.text=@""; return; }
     _selTitle.text=it[s][@"title"];
     NSString*sub=it[s][@"sub"]?:@"";
-    _selSub.attributedText=[[NSAttributedString alloc] initWithString:[sub uppercaseString] attributes:@{NSKernAttributeName:@2,NSFontAttributeName:light(10),NSForegroundColorAttributeName:[UIColor colorWithWhite:1 alpha:0.5]}];
+    [SpotTheme spaced:_selSub text:[sub uppercaseString] font:light(10) color:[UIColor colorWithWhite:1 alpha:0.5] kern:2];
     _selSub.textAlignment=NSTextAlignmentCenter;
 }
 - (void)nowPlayingChanged {

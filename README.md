@@ -31,7 +31,7 @@ There is no password field. You pair the iPod like a TV: the app shows a code, y
 
 ## Runs on
 
-iOS 6.1.6 · jailbroken iPod touch 4 · Spotify Premium account
+iOS 5.0 to 6.1 · jailbroken iPod touch 3G and 4G (iOS 5 not yet tested on a device) · Spotify Premium account
 
 ## Install
 

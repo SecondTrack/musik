@@ -27,4 +27,9 @@ static UIColor* rgb(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 gre
     [[UIColor colorWithRed:0.055 green:0.055 blue:0.063 alpha:1] setStroke]; [p stroke];
     UIImage*img=UIGraphicsGetImageFromCurrentImageContext(); UIGraphicsEndImageContext(); return img;
 }
++ (void)spaced:(UILabel *)label text:(NSString *)text font:(UIFont *)font color:(UIColor *)color kern:(CGFloat)kern {
+    if ([label respondsToSelector:@selector(setAttributedText:)] && &NSKernAttributeName != NULL) {
+        label.attributedText = [[NSAttributedString alloc] initWithString:text ?: @"" attributes:@{NSKernAttributeName:@(kern), NSFontAttributeName:font, NSForegroundColorAttributeName:color}];
+    } else { label.text = text; label.font = font; label.textColor = color; }
+}
 @end

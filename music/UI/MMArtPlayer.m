@@ -154,7 +154,7 @@ static NSArray *palette(UIImage *img){
     _title.text=t;
     if([_style isEqualToString:@"orbit"]){
         NSString*a=[artist?:@"" uppercaseString];
-        _artist.attributedText=[[NSAttributedString alloc] initWithString:a attributes:@{NSKernAttributeName:@2.5,NSFontAttributeName:light(11),NSForegroundColorAttributeName:[UIColor colorWithWhite:1 alpha:0.5]}];
+        [SpotTheme spaced:_artist text:a font:light(11) color:[UIColor colorWithWhite:1 alpha:0.5] kern:2.5];
         _artist.textAlignment=NSTextAlignmentCenter;
     } else _artist.text=artist?:@"";
     if([_style isEqualToString:@"line"]){   // Titelhöhe anpassen, Künstler direkt darunter

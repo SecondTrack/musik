@@ -14,5 +14,7 @@
 + (UIFont *)body;       // 15
 + (UIFont *)sub;        // 13 (muted)
 + (UIFont *)tab;        // 10
-+ (UIImage *)logo:(CGFloat)size;   // eigenes Zeichen: grüner Kreis mit Puls-Linie
++ (UIImage *)logo:(CGFloat)size;
+// Text mit Buchstabenabstand (iOS 6+); unter iOS 5 normaler Text in gleicher Schrift und Farbe
++ (void)spaced:(UILabel *)label text:(NSString *)text font:(UIFont *)font color:(UIColor *)color kern:(CGFloat)kern;   // eigenes Zeichen: grüner Kreis mit Puls-Linie
 @end
