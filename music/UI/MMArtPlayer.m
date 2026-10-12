@@ -13,7 +13,6 @@
 static UIFont *thin(CGFloat s){ return [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:s]?:[UIFont fontWithName:@"HelveticaNeue-Light" size:s]?:[UIFont systemFontOfSize:s]; }
 static UIFont *light(CGFloat s){ return [UIFont fontWithName:@"HelveticaNeue-Light" size:s]?:[UIFont systemFontOfSize:s]; }
 static NSString *fmt(double s){ if(s<0)s=0; int m=(int)s/60, sec=(int)s%60; return [NSString stringWithFormat:@"%d:%02d",m,sec]; }
-static CGFloat lum(UIColor*c){ CGFloat r=0,g=0,b=0,a=0; [c getRed:&r green:&g blue:&b alpha:&a]; return 0.299*r+0.587*g+0.114*b; }
 static UIColor *scale(UIColor*c,CGFloat f){ CGFloat r=0,g=0,b=0,a=0; [c getRed:&r green:&g blue:&b alpha:&a]; return [UIColor colorWithRed:MIN(1,r*f) green:MIN(1,g*f) blue:MIN(1,b*f) alpha:1]; }
 
 // Farben aus dem Cover: [Akzent (kräftig, hell genug), Mittelton, dunkle Variante, Leinwand]
@@ -50,18 +49,16 @@ static NSArray *palette(UIImage *img){
     CGFloat W, H;
     // Orbit
     UIImageView *_disc; CAShapeLayer *_ring, *_arc, *_halo; CALayer *_dot; CGPoint _c; CGFloat _R, _rot;
-    // Farbfeld
-    CALayer *_f[3], *_hair; CGFloat _top, _bot;
     // Linie
     CAShapeLayer *_lineA, *_lineB; CALayer *_head; CGFloat _midY;
 }
 
-+ (NSArray *)styles { return @[@"standard",@"orbit",@"field",@"line"]; }
++ (NSArray *)paletteFor:(UIImage *)img { return img?palette(img):nil; }
++ (NSArray *)styles { return @[@"standard",@"orbit",@"line"]; }
 + (NSString *)style { NSString*s=[[NSUserDefaults standardUserDefaults] stringForKey:@"playerStyle"]; return [[self styles] containsObject:s]?s:@"standard"; }
 + (void)setStyle:(NSString *)style { [[NSUserDefaults standardUserDefaults] setObject:style forKey:@"playerStyle"]; [[NSUserDefaults standardUserDefaults] synchronize]; }
 + (NSString *)nameOf:(NSString *)s {
     if([s isEqualToString:@"orbit"]) return L(@"Orbit");
-    if([s isEqualToString:@"field"]) return L(@"Color field");
     if([s isEqualToString:@"line"])  return L(@"Line");
     return L(@"Standard");
 }
@@ -72,11 +69,11 @@ static NSArray *palette(UIImage *img){
     self.view=[[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view.backgroundColor=[UIColor blackColor]; self.view.clipsToBounds=YES;
     W=self.view.bounds.size.width; H=self.view.bounds.size.height;
-    _style=[MMArtPlayer style];
+    _style=self.styleOverride.length?self.styleOverride:[MMArtPlayer style];
+    if([_style isEqualToString:@"standard"]) _style=@"orbit";
     _acc=[SpotTheme green]; _mid=[UIColor colorWithWhite:0.35 alpha:1]; _dark=[UIColor colorWithWhite:0.18 alpha:1]; _canvas=[UIColor colorWithWhite:0.07 alpha:1];
 
     if([_style isEqualToString:@"orbit"]) [self buildOrbit];
-    else if([_style isEqualToString:@"field"]) [self buildField];
     else [self buildLine];
 
     // Schließen-Hinweis oben (dezent), Ladeanzeige, Bedien-Hinweis
@@ -135,20 +132,6 @@ static NSArray *palette(UIImage *img){
     _time=[self label:CGRectMake(24,ty+54,W-48,14) font:light(10) color:[UIColor colorWithWhite:1 alpha:0.35] align:NSTextAlignmentCenter];
 }
 
-// Farbfeld: drei weiche Farbflächen aus dem Cover (à la Rothko), Haarlinie wandert = Fortschritt
-- (void)buildField {
-    _top=22; _bot=H-74;
-    for(int i=0;i<3;i++){
-        _f[i]=[CALayer layer]; _f[i].shadowOpacity=0.9; _f[i].shadowRadius=7; _f[i].shadowOffset=CGSizeZero; _f[i].cornerRadius=2;
-        [self.view.layer addSublayer:_f[i]];
-    }
-    _hair=[CALayer layer]; _hair.backgroundColor=[UIColor colorWithWhite:0 alpha:0.6].CGColor; [self.view.layer addSublayer:_hair];
-    _title=[self label:CGRectMake(20,_bot+14,W-90,20) font:[UIFont boldSystemFontOfSize:15] color:[UIColor whiteColor] align:NSTextAlignmentLeft];
-    _artist=[self label:CGRectMake(20,_bot+34,W-90,16) font:light(12) color:[UIColor colorWithWhite:1 alpha:0.6] align:NSTextAlignmentLeft];
-    _time=[self label:CGRectMake(W-80,_bot+16,60,16) font:light(11) color:[UIColor colorWithWhite:1 alpha:0.5] align:NSTextAlignmentRight];
-    [self colorize:NO];
-}
-
 // Linie: eine einzige Linie = Live-Wellenform; gespielter Teil in Farbe
 - (void)buildLine {
     _midY=H*0.58;
@@ -202,14 +185,6 @@ static NSArray *palette(UIImage *img){
     [CATransaction begin]; [CATransaction setAnimationDuration:anim?0.8:0]; [CATransaction setDisableActions:!anim];
     _arc.strokeColor=_acc.CGColor; _halo.fillColor=[_acc colorWithAlphaComponent:0.22].CGColor;
     _lineA.strokeColor=_acc.CGColor;
-    if(_f[0]){
-        NSArray*cols=@[_acc,_mid,_dark];
-        for(int i=0;i<3;i++){ _f[i].backgroundColor=[cols[i] CGColor]; _f[i].shadowColor=[cols[i] CGColor]; }
-        self.view.backgroundColor=_canvas;
-        BOOL lightCanvas=lum(_canvas)>0.55;
-        _title.textColor=lightCanvas?[UIColor blackColor]:[UIColor whiteColor];
-        _artist.textColor=[_title.textColor colorWithAlphaComponent:0.6]; _time.textColor=[_title.textColor colorWithAlphaComponent:0.5];
-    }
     [CATransaction commit];
     if(_lineA) _artist.textColor=_acc;
 }
@@ -247,13 +222,6 @@ static NSArray *palette(UIImage *img){
         _arc.strokeEnd=frac;
         CGFloat ang=-M_PI_2+frac*2*M_PI; _dot.position=CGPointMake(_c.x+_R*cos(ang),_c.y+_R*sin(ang));
         _time.text=dur>0?[NSString stringWithFormat:@"%@  /  %@",fmt(cur),fmt(dur)]:@"";
-    } else if(_f[0]){
-        CGFloat h=_bot-_top, g=10, b=_bass*26;
-        CGFloat h0=h*0.44+b, h1=h*0.31-b*0.6, h2=h-h0-h1-2*g;
-        CGFloat ys[3]={_top,_top+h0+g,_top+h0+h1+2*g}, hs[3]={h0,h1,h2};
-        for(int i=0;i<3;i++){ CGRect r=CGRectMake(18,ys[i],W-36,hs[i]); _f[i].frame=r; _f[i].shadowPath=[UIBezierPath bezierPathWithRect:CGRectMake(0,0,r.size.width,r.size.height)].CGPath; }
-        CGFloat hy=_top+frac*h; _hair.frame=CGRectMake(10,floor(hy),W-20,_seeking?2:1);
-        _time.text=dur>0?fmt(cur):@"";
     } else if(_lineA){
         CGFloat x0=18, x1=W-18, px=x0+(x1-x0)*frac, amp=110;
         UIBezierPath*a=[UIBezierPath bezierPath], *bp=[UIBezierPath bezierPath];
@@ -296,14 +264,12 @@ static NSArray *palette(UIImage *img){
 // Liegt der Startpunkt auf der Fortschrittsanzeige? Dann wird gespult, sonst gewischt.
 - (BOOL)inSeekZone:(CGPoint)p {
     if(_disc){ CGFloat d=hypot(p.x-_c.x,p.y-_c.y); return d>_R-34 && d<_R+30; }
-    if(_f[0]){ CGFloat hy=_top+(_bot-_top)*[self curFrac]; return fabs(p.y-hy)<30 && p.y>_top-10 && p.y<_bot+10; }
     return fabs(p.y-_midY)<60;
 }
 - (double)curFrac { double d=[MMAudio duration]; return d>0?[MMAudio currentTime]/d:0; }
 - (double)fracAt:(CGPoint)p {
     double f;
     if(_disc){ double ang=atan2(p.y-_c.y,p.x-_c.x)+M_PI_2; if(ang<0)ang+=2*M_PI; f=ang/(2*M_PI); }
-    else if(_f[0]) f=(p.y-_top)/(_bot-_top);
     else f=(p.x-18)/(W-36);
     return f<0?0:(f>1?1:f);
 }

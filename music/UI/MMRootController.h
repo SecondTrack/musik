@@ -19,6 +19,10 @@
 - (NSDictionary *)nowPlaying;
 - (void)togglePlayPause;
 - (void)setClassicMode:(BOOL)on;
++ (NSString *)nameOfUIMode:(NSString *)mode;
+- (NSString *)uiMode;                        // @"spotify", @"ipod", @"orbit", @"line"
+- (void)setUIMode:(NSString *)mode;
+- (void)openPlayerWithStyle:(NSString *)style;   // abstrakter Player in festem Stil
 // Cover Flow im Vollbild-Querformat (öffnet auch automatisch, wenn der iPod quer gedreht wird)
 - (void)showCoverFlow;
 // Ansicht im Inhaltsbereich öffnen/schließen (bleibt über Tab-/Now-Playing-/Download-Leiste)

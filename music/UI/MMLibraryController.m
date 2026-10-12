@@ -228,7 +228,7 @@
     // über die ganze App legen (auch über Tab- und Player-Leiste)
     UIView*host=[MMRootController shared].view;
     [MMSheet showIn:host title:L(@"Settings") subtitle:nil
-            options:@[L(@"iPod mode (click wheel)"),([MMSpotify hasSearchKey]?L(@"Change search key"):L(@"Unlock search")),
+            options:@[L(@"Look: iPod, Orbit, Line …"),([MMSpotify hasSearchKey]?L(@"Change search key"):L(@"Unlock search")),
                       ([MMKeepAlive enabled]?L(@"Background download: On"):L(@"Background download: Off")),
                       LF(@"Player: %@",[MMArtPlayer nameOf:[MMArtPlayer style]]),L(@"About this app")]
                done:^(NSInteger i){ if(i>=0) [self settingsChoice:i]; }];
@@ -240,7 +240,13 @@
         [MMArtPlayer setStyle:st[(k+1)%st.count]]; [self openSettings]; return;
     }
     if(i==4){ [MMAboutView showIn:[MMRootController shared].view]; return; }
-    if(i==0){ [[MMRootController shared] setClassicMode:YES]; return; }
+    if(i==0){   // andere Oberfläche wählen
+        NSArray*ms=@[@"ipod",@"orbit",@"line"]; NSMutableArray*o=[NSMutableArray array];
+        for(NSString*m in ms) [o addObject:[MMRootController nameOfUIMode:m]];
+        [MMSheet showIn:[MMRootController shared].view title:L(@"Look") subtitle:L(@"Replaces the whole app. Switch back in its settings.") options:o
+                   done:^(NSInteger k){ if(k>=0) [[MMRootController shared] setUIMode:ms[k]]; }];
+        return;
+    }
     if(i==1){
         MMKeySetupController*k=[[MMKeySetupController alloc] init]; k.skippable=NO;
         k.onDone=^(BOOL saved){ [[MMRootController shared] popContent]; };

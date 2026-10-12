@@ -225,3 +225,17 @@
 "Repeat: Off" = "Wiederholen: Aus";
 "Repeat: All" = "Wiederholen: Alle";
 "Repeat: One" = "Wiederholen: Titel";
+
+/* Orbit / Linie */
+"iPod mode" = "iPod-Modus";
+"Orbit mode" = "Orbit-Modus";
+"Line mode" = "Linien-Modus";
+"Normal view" = "Normale Ansicht";
+"Switch look" = "Ansicht wechseln";
+"Look" = "Ansicht";
+"Look: iPod, Orbit, Line …" = "Ansicht: iPod, Orbit, Linie …";
+"Replaces the whole app. Switch back in its settings." = "Ersetzt die ganze App. Zurück geht es in deren Einstellungen.";
+"Loading…" = "Lädt …";
+"Background download" = "Hintergrund-Download";
+"↓  Saving … %ld of %ld" = "↓  Wird gespeichert … %ld von %ld";
+"↓ %ld of %ld" = "↓ %ld von %ld";

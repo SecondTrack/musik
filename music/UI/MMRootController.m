@@ -7,6 +7,8 @@
 #import "MMLibraryController.h"
 #import "MMPlayerController.h"
 #import "MMArtPlayer.h"
+#import "MMOrbitMode.h"
+#import "MMLineMode.h"
 #import "MMSpotify.h"
 #import "MMClassicController.h"
 #import "MMSheet.h"
@@ -71,10 +73,12 @@ static MMRootController *gRoot;
     BOOL _shuffle;
     NSInteger _repeatMode;
     MMClassicController *_classic;
+    MMModeBase *_mode;              // Orbit/Linie: ersetzt die ganze Oberfläche
     MMCoverFlowView *_cflow; BOOL _cflowManual;   // Cover Flow (quer); manual = über Menü geöffnet   // iPod-Modus (liegt über allem, Wiedergabe läuft hier weiter)
     double _resumePos, _pendingSeek; BOOL _needsResume;
     NSTimeInterval _playStartTS;   // wann die aktuelle Wiedergabe tatsächlich startete (gegen Finish-Kaskade)
     UIView *_dlBar, *_dlProg; UILabel *_dlLbl;   // globale Offline-Download-Leiste
+    NSTimeInterval _dlSince; BOOL _dlCompact;      // nach ein paar Sekunden nur noch dünne Linie
     UIViewController *_pushed;                    // im Inhaltsbereich geöffnete Ansicht (z.B. Titelliste)
     CGFloat _tabH, _npH;
 }
@@ -156,7 +160,8 @@ static MMRootController *gRoot;
     // iPod quer drehen -> Cover Flow
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"ipodMode"]) [self showClassic:NO];   // sofort, kein Aufblitzen der normalen Ansicht
+    NSString*um=[self uiMode];   // sofort, kein Aufblitzen der normalen Ansicht
+    if([um isEqualToString:@"ipod"]) [self showClassic:NO]; else if(![um isEqualToString:@"spotify"]) [self showMode:um animated:NO];
     // Offline-Playlists, deren Download unterbrochen wurde, automatisch weiterladen
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(4.0*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [MMSpotify resumeOfflineDownloads]; });
     // Cover aller Playlists im Hintergrund auf die Platte (Cover Flow + Listen sofort, auch offline)
@@ -289,28 +294,35 @@ static MMRootController *gRoot;
 - (void)layoutDlBar {
     CGFloat W=self.view.bounds.size.width, H=self.view.bounds.size.height;
     CGFloat top = _npBar.hidden ? (H-_tabH) : _npBar.frame.origin.y;   // direkt über Now-Playing (oder Tab-Leiste)
-    _dlBar.frame=CGRectMake(0, top-24, W, 24);
+    CGFloat h=_dlCompact?2:24;
+    _dlBar.frame=CGRectMake(0, top-h, W, h); _dlLbl.hidden=_dlCompact;
+    CGRect pf=_dlProg.frame; pf.origin.y=h-2; _dlProg.frame=pf;
     [self.view bringSubviewToFront:_dlBar];
     [self keepOverlaysOnTop];
 }
 - (void)showDownloadProgress:(NSInteger)done total:(NSInteger)total {
     if(_cflow) return;                    // Cover Flow (quer) nicht überdecken – Download läuft weiter
     if(_classic){ [_classic showDownload:LF(@"Download %ld/%ld",(long)done,(long)total) progress:(total>0?(CGFloat)done/total:0)]; return; }
+    if(_mode){ [_mode showDownload:LF(@"↓ %ld of %ld",(long)done,(long)total) progress:(total>0?(CGFloat)done/total:0)]; return; }
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDownloadBar) object:nil];
+    NSTimeInterval now=[NSDate timeIntervalSinceReferenceDate];
+    if(_dlBar.hidden) _dlSince=now;
+    _dlCompact=(now-_dlSince>6);                       // Text nur am Anfang, dann dezente Linie
+    _dlLbl.text=LF(@"↓  Saving … %ld of %ld",(long)done,(long)total);
+    _dlProg.frame=CGRectMake(0,0, self.view.bounds.size.width*(total>0?(CGFloat)done/total:0), 2);
     [self layoutDlBar]; _dlBar.hidden=NO;
-    int pct=(int)(total>0?done*100/total:0);
-    _dlLbl.text=LF(@"↓  Downloading offline … %d%%   (%ld/%ld)",pct,(long)done,(long)total);
-    _dlProg.frame=CGRectMake(0,22, self.view.bounds.size.width*(total>0?(CGFloat)done/total:0), 2);
 }
 - (void)showDownloadMessage:(NSString *)msg {
     if(_cflow) return;
     if(_classic){ [_classic showDownload:msg progress:-1]; return; }
+    if(_mode){ [_mode showDownload:msg progress:-1]; return; }
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDownloadBar) object:nil];
-    [self layoutDlBar]; _dlBar.hidden=NO; _dlLbl.text=msg;
-    _dlProg.frame=CGRectMake(0,22, self.view.bounds.size.width, 2);
+    _dlCompact=NO; _dlLbl.text=msg;
+    _dlProg.frame=CGRectMake(0,0, self.view.bounds.size.width, 2);
+    [self layoutDlBar]; _dlBar.hidden=NO;
     [self performSelector:@selector(hideDownloadBar) withObject:nil afterDelay:2.5];
 }
-- (void)hideDownloadBar { _dlBar.hidden=YES; }
+- (void)hideDownloadBar { _dlBar.hidden=YES; _dlCompact=NO; }
 - (void)dlProgress:(NSNotification *)n { NSInteger t=[n.userInfo[@"total"] integerValue]; if(t>0) [self showDownloadProgress:[n.userInfo[@"done"] integerValue] total:t]; }
 - (void)dlDone:(NSNotification *)n { [self showDownloadMessage:LF(@"✓  %ld tracks saved offline",(long)[n.userInfo[@"ok"] integerValue])]; }
 - (void)dlFull:(NSNotification *)n { [self showDownloadMessage:L(@"Storage full — download stopped")]; }
@@ -449,16 +461,45 @@ static NSArray* shuffledFrom(NSArray*list,NSInteger idx){
     [self.view addSubview:_classic.view];
     if(animated){ _classic.view.alpha=0; [UIView animateWithDuration:0.3 animations:^{ _classic.view.alpha=1; }]; }
 }
-- (void)setClassicMode:(BOOL)on {
-    [[NSUserDefaults standardUserDefaults] setBool:on forKey:@"ipodMode"]; [[NSUserDefaults standardUserDefaults] synchronize];
-    if(on && !_classic){
-        if(self.presentedViewController) [self dismissViewControllerAnimated:NO completion:nil];
-        [self showClassic:YES];
-    } else if(!on && _classic){
-        UIView*v=_classic.view; _classic=nil;
-        [UIView animateWithDuration:0.3 animations:^{ v.alpha=0; } completion:^(BOOL f){ [v removeFromSuperview]; }];
-    }
+// ---- Oberflächen: spotify (normal), ipod (Klickrad), orbit, line ----
++ (NSString *)nameOfUIMode:(NSString *)m {
+    if([m isEqualToString:@"ipod"]) return L(@"iPod mode");
+    if([m isEqualToString:@"orbit"]) return L(@"Orbit mode");
+    if([m isEqualToString:@"line"]) return L(@"Line mode");
+    return L(@"Normal view");
 }
+- (NSString *)uiMode {
+    NSString*m=[[NSUserDefaults standardUserDefaults] stringForKey:@"uiMode"];
+    if([@[@"spotify",@"ipod",@"orbit",@"line"] containsObject:m]) return m;
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"ipodMode"]?@"ipod":@"spotify";   // ältere Einstellung
+}
+- (void)showMode:(NSString *)m animated:(BOOL)animated {
+    _dlBar.hidden=YES;
+    _mode=[m isEqualToString:@"line"]?[[MMLineMode alloc] init]:[[MMOrbitMode alloc] init];
+    _mode.view.frame=self.view.bounds; [self.view addSubview:_mode.view]; [self keepOverlaysOnTop];
+    if(animated){ _mode.view.alpha=0; [UIView animateWithDuration:0.3 animations:^{ _mode.view.alpha=1; }]; }
+}
+- (void)hideMode {
+    MMModeBase*md=_mode; _mode=nil; if(!md) return; [md stop];
+    UIView*v=md.view; [UIView animateWithDuration:0.3 animations:^{ v.alpha=0; } completion:^(BOOL f){ [v removeFromSuperview]; }];
+}
+- (void)setUIMode:(NSString *)m {
+    NSUserDefaults*u=[NSUserDefaults standardUserDefaults];
+    [u setObject:m forKey:@"uiMode"]; [u setBool:[m isEqualToString:@"ipod"] forKey:@"ipodMode"]; [u synchronize];
+    if(self.presentedViewController) [self dismissViewControllerAnimated:NO completion:nil];
+    [self hideMode];
+    if(_classic && ![m isEqualToString:@"ipod"]){ UIView*v=_classic.view; _classic=nil;
+        [UIView animateWithDuration:0.3 animations:^{ v.alpha=0; } completion:^(BOOL f){ [v removeFromSuperview]; }]; }
+    if([m isEqualToString:@"ipod"]) [self showClassic:YES];
+    else if(![m isEqualToString:@"spotify"]) [self showMode:m animated:YES];
+}
+- (void)openPlayerWithStyle:(NSString *)style {
+    if([self.presentedViewController isKindOfClass:[MMPlayerController class]]) return;
+    MMArtPlayer*pc=[[MMArtPlayer alloc] init]; pc.styleOverride=style;
+    pc.trackTitle=_curTitle; pc.trackArtist=_curArtist; pc.coverURL=_curCover;
+    _player=pc; [self presentViewController:pc animated:YES completion:nil];
+}
+- (void)setClassicMode:(BOOL)on { [self setUIMode:on?@"ipod":@"spotify"]; }
 
 // ---- Cover Flow: die App selbst bleibt hochkant, die Ansicht wird um 90° gedreht eingeblendet ----
 - (void)orientationChanged {
