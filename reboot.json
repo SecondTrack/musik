@@ -1,5 +1,5 @@
 {
-  "id": "musik",
+  "id": "riff",
   "name": "Riff",
   "short": "Music for your Spotify account",
   "category": "Media",
@@ -9,7 +9,7 @@
   ],
   "package": "de.mesh.music",
   "version": "0.2.6",
-  "repo": "SecondTrack/musik",
+  "repo": "SecondTrack/riff",
   "requires": "Spotify-Konto",
   "license": "GPL-3.0",
   "install": "GitHub release: latest release, *.deb asset",
