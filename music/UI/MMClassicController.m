@@ -494,6 +494,7 @@ static NSArray* tracksFromItems(NSArray*items){
             NSString*pid=p[@"id"];
             NSMutableDictionary*e=[[ws item:name arrow:YES action:^{ [ws openTracks:name path:[NSString stringWithFormat:@"playlists/%@?market=from_token",pid]]; }] mutableCopy];
             e[@"cover"]=[MMCovers bestURL:p[@"images"]]?:@"";
+            if(![e[@"cover"] length]) [MMCovers playlistCover:pid completion:^(NSString*mu){ if(mu.length){ e[@"cover"]=mu; MMClassicController*ss=ws; if(ss && [ss->_stack lastObject]==m) [ss render]; } }];
             id tr=p[@"tracks"]; if([tr isKindOfClass:[NSDictionary class]] && tr[@"total"]) e[@"sub"]=LF(@"%@ songs",tr[@"total"]);
             [it addObject:e];
         }

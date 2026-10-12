@@ -138,7 +138,8 @@ static NSString *mosaicMemo(void){ return @"/var/mobile/.spotcache/plcovers.plis
     NSDictionary*m=memo[pid];
     NSString*mu=m[@"url"];
     BOOL fileGone=[mu hasPrefix:@"file:"] && ![[NSFileManager defaultManager] fileExistsAtPath:[(NSURL*)[NSURL URLWithString:mu] path]];   // inzwischen abgelaufen
-    if(m && !fileGone && [[NSDate date] timeIntervalSince1970]-[m[@"t"] doubleValue]<7*86400){ if(done)done(mu.length?mu:nil); return; }   // eine Woche merken
+    double age=[[NSDate date] timeIntervalSince1970]-[m[@"t"] doubleValue];
+    if(m && !fileGone && age<(mu.length?7*86400:3600)){ if(done)done(mu.length?mu:nil); return; }   // Treffer eine Woche merken, Fehlschlag (z.B. offline) nur 1 h
     if(waiting[pid]){ if(done)[waiting[pid] addObject:[done copy]]; return; }   // schon unterwegs -> mitwarten
     waiting[pid]=[NSMutableArray array]; if(done)[waiting[pid] addObject:[done copy]];
     void (^finish)(NSString*)=^(NSString*url){

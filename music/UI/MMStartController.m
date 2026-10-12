@@ -56,8 +56,11 @@
         NSArray*items=j[@"items"];
         if([items isKindOfClass:[NSArray class]]) for(NSDictionary*p in items){
             if(![p isKindOfClass:[NSDictionary class]]||![p[@"id"] isKindOfClass:[NSString class]]) continue;
-            NSString*cov=[MMCovers bestURL:p[@"images"]];
-            [q addObject:@{@"name":p[@"name"]?:L(@"Playlist"),@"path":[NSString stringWithFormat:@"playlists/%@?market=from_token",p[@"id"]],@"cover":cov}];
+            NSString*cov=[MMCovers bestURL:p[@"images"]]?:@"";
+            NSMutableDictionary*tile=[@{@"name":p[@"name"]?:L(@"Playlist"),@"path":[NSString stringWithFormat:@"playlists/%@?market=from_token",p[@"id"]],@"cover":cov} mutableCopy];
+            if(!cov.length) [MMCovers playlistCover:p[@"id"] completion:^(NSString*mu){   // kein eigenes Bild -> Mosaik wie in der Bibliothek
+                if(mu.length && [_quick containsObject:tile]){ tile[@"cover"]=mu; [self render]; } }];
+            [q addObject:tile];
             if(q.count>=6) break;
         }
         _quick=q; [self render];
