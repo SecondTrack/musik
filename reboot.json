@@ -1,26 +1,36 @@
 {
   "id": "musik",
-  "name": "Musik",
-  "short": "Deine Spotify-Playlists auf dem iPod",
-  "category": "Medien",
+  "name": "Music",
+  "short": "Your Spotify playlists on the iPod",
+  "category": "Media",
   "status": "beta",
   "ios": [
     "6.1.6"
   ],
   "package": "de.mesh.music",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repo": "SecondTrack/musik",
   "requires": "Spotify-Konto",
   "license": "GPL-3.0",
-  "install": "GitHub-Release: neuestes Release, Anhang *.deb",
+  "install": "GitHub release: latest release, *.deb asset",
   "bundle": "de.mesh.music",
-  "text": "Suche, Bibliothek, Playlists und Wiedergabe mit nahtlosem Übergang dank Vorladen. Playlists lassen sich für unterwegs offline speichern, Lenkrad- und Bluetooth-Tasten im Auto funktionieren.",
+  "text": "Search, library, playlists and gapless playback thanks to preloading. Save playlists offline for on the go; steering-wheel and Bluetooth buttons work in the car.",
   "features": [
+    "Search, library and playlists",
+    "Offline download of whole playlists",
+    "Gapless playback thanks to preloading",
+    "Control via headphones, Bluetooth and car"
+  ],
+  "icon": "https://raw.githubusercontent.com/SecondTrack/musik/main/Resources/Icon@2x.png",
+  "private": false,
+  "name_de": "Musik",
+  "short_de": "Deine Spotify-Playlists auf dem iPod",
+  "category_de": "Medien",
+  "text_de": "Suche, Bibliothek, Playlists und Wiedergabe mit nahtlosem Übergang dank Vorladen. Playlists lassen sich für unterwegs offline speichern, Lenkrad- und Bluetooth-Tasten im Auto funktionieren.",
+  "features_de": [
     "Suche, Bibliothek und Playlists",
     "Offline-Download ganzer Playlists",
     "Nahtloser Übergang dank Vorladen",
     "Steuerung über Kopfhörer, Bluetooth und Auto"
-  ],
-  "icon": "https://raw.githubusercontent.com/SecondTrack/musik/main/Resources/Icon@2x.png",
-  "private": false
+  ]
 }

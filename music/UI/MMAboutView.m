@@ -3,8 +3,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <dlfcn.h>
 
-// Adressen der Website (Domain ist noch Platzhalter, wie im Shop-Build: BASIS = secondtrack.de)
-#define ST_SITE   @"https://secondtrack.de/"
 #define ST_REBOOT @"https://github.com/SecondTrack/reboot/releases/latest"   // bis es eine Cydia-Quelle gibt
 #define REBOOT_ID @"de.mesh.shop"
 static BOOL rebootInstalled(void){ return [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Shop.app/Info.plist"]; }
@@ -61,7 +59,6 @@ static UIColor* RGB(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 gre
     [self text:LF(@"Music for iPod touch · Version %@",ver) size:13 bold:NO color:mut x:20 w:W-40 center:YES in:_sc]; _y+=24;
     UILabel*t=[self text:L(@"A Second Track app. We give old iPods a second life: used devices, lovingly refurbished – and new apps that make them useful again today.") size:15 bold:NO color:ink x:24 w:W-48 center:YES in:_sc];
     _y+=t.frame.size.height+18;
-    [self button:L(@"Visit secondtrack.de") filled:NO action:@selector(openSite) in:_sc x:40 w:W-80]; _y+=28;
 
     // Karte: Reboot Appstore
     UIView*card=[[UIView alloc] initWithFrame:CGRectMake(14,_y,W-28,10)]; card.backgroundColor=RGB(22,22,24); card.layer.cornerRadius=14;
@@ -86,7 +83,6 @@ static UIColor* RGB(int r,int g,int b){ return [UIColor colorWithRed:r/255.0 gre
     _sc.contentSize=CGSizeMake(W,MAX(_y,H+1));
     return self;
 }
-- (void)openSite { [[UIApplication sharedApplication] openURL:[NSURL URLWithString:ST_SITE]]; }
 // Installiert: Store direkt starten. Sonst: Download-Seite.
 - (void)openReboot {
     if(rebootInstalled()){

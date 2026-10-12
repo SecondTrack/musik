@@ -1,43 +1,43 @@
-# Musik
+# Music
 
-**Deine Spotify-Playlists auf dem iPod**
+**Your Spotify playlists on the iPod**
 
-Suche, Bibliothek, Playlists und Wiedergabe mit nahtlosem Übergang dank Vorladen. Playlists lassen sich für unterwegs offline speichern, Lenkrad- und Bluetooth-Tasten im Auto funktionieren.
+Search, library, playlists and gapless playback thanks to preloading. Save playlists offline for on the go; steering-wheel and Bluetooth buttons work in the car.
 
-## Das kann die App
+## Features
 
-- Suche, Bibliothek und Playlists
-- Offline-Download ganzer Playlists
-- Nahtloser Übergang dank Vorladen
-- Steuerung über Kopfhörer, Bluetooth und Auto
+- Search, library and playlists
+- Offline download of whole playlists
+- Gapless playback thanks to preloading
+- Control via headphones, Bluetooth and car
 
-## Läuft auf
+## Runs on
 
-iOS 6.1.6 · gejailbreakter iPod touch
+iOS 6.1.6 · jailbroken iPod touch
 
-Braucht: Spotify-Konto
+Requires: Spotify account
 
-## Installieren
+## Install
 
-Am einfachsten über den **[Reboot Appstore](https://github.com/SecondTrack/reboot)** direkt auf dem iPod.
-Von Hand: das `.deb` aus dem [neuesten Release](https://github.com/SecondTrack/musik/releases/latest) laden und mit `dpkg -i` installieren, danach `uicache`.
+The easiest way is the **[Reboot App Store](https://github.com/SecondTrack/reboot)** right on the iPod.
+By hand: download the `.deb` from the [latest release](https://github.com/SecondTrack/musik/releases/latest), install it with `dpkg -i`, then run `uicache`.
 
-## Selbst bauen
+## Build it yourself
 
-Mit [Theos](https://theos.dev) (iOS-SDK mit armv7):
+With [Theos](https://theos.dev) (iOS SDK with armv7):
 
 ```sh
 make package
 ```
 
-## Teil von Reboot
+## Part of Reboot
 
-Diese App gehört zu **Reboot** von [Second Track](https://secondtrack.de) – neue Apps für alte iPods.
-Alle Apps: [SecondTrack](https://github.com/SecondTrack).
+This app is part of **Reboot** by **Second Track** – new apps for old iPods.
+All apps: [SecondTrack](https://github.com/SecondTrack).
 
-## Lizenz
+## License
 
-GPL-3.0 – siehe [LICENSE](LICENSE). Mitgelieferte Bibliotheken unter `vendor/` behalten ihre eigenen Lizenzen.
-Nicht mit Apple verbunden. iPod ist eine Marke von Apple Inc.
+GPL-3.0 – see [LICENSE](LICENSE). Bundled libraries under `vendor/` keep their own licenses.
+Not affiliated with Apple. iPod is a trademark of Apple Inc.
 
-Nicht mit Spotify verbunden. Spotify ist eine Marke der Spotify AB. Braucht ein Spotify-Premium-Konto.
+Not affiliated with Spotify. Spotify is a trademark of Spotify AB. Requires a Spotify account; search needs your own free Spotify developer key (the app explains how).
