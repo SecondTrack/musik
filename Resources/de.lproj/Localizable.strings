@@ -211,3 +211,17 @@
 "Download Reboot" = "Reboot herunterladen";
 "Install and update all apps right on your iPod." = "Alle Apps direkt auf dem iPod installieren und aktualisieren.";
 "Free · for jailbroken iPod touch" = "Kostenlos · für gejailbreakte iPod touch";
+
+/* Abstrakte Player */
+"Orbit" = "Orbit";
+"Color field" = "Farbfeld";
+"Line" = "Linie";
+"Standard" = "Standard";
+"Player" = "Player";
+"Player: %@" = "Player: %@";
+"Tap: pause · Swipe: skip · Hold: menu" = "Tippen: Pause · Wischen: Weiter · Halten: Menü";
+"Shuffle: On" = "Zufall: An";
+"Shuffle: Off" = "Zufall: Aus";
+"Repeat: Off" = "Wiederholen: Aus";
+"Repeat: All" = "Wiederholen: Alle";
+"Repeat: One" = "Wiederholen: Titel";

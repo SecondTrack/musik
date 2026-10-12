@@ -6,6 +6,7 @@
 #import "MMRadioController.h"
 #import "MMLibraryController.h"
 #import "MMPlayerController.h"
+#import "MMArtPlayer.h"
 #import "MMSpotify.h"
 #import "MMClassicController.h"
 #import "MMSheet.h"
@@ -493,7 +494,7 @@ static NSArray* shuffledFrom(NSArray*list,NSInteger idx){
 - (void)openPlayer {
     if([self.presentedViewController isKindOfClass:[MMPlayerController class]]) return;  // schon offen
     if(self.presentedViewController){ [self dismissViewControllerAnimated:NO completion:nil]; }
-    MMPlayerController*pc=[[MMPlayerController alloc] init];
+    MMPlayerController*pc=[[MMArtPlayer style] isEqualToString:@"standard"]?[[MMPlayerController alloc] init]:[[MMArtPlayer alloc] init];
     pc.trackTitle=_curTitle; pc.trackArtist=_curArtist; pc.coverURL=_curCover;
     pc.modalTransitionStyle=UIModalTransitionStyleCoverVertical;
     _player=pc;

@@ -198,3 +198,17 @@
 "Download Reboot" = "Download Reboot";
 "Install and update all apps right on your iPod." = "Install and update all apps right on your iPod.";
 "Free · for jailbroken iPod touch" = "Free · for jailbroken iPod touch";
+
+/* Abstrakte Player */
+"Orbit" = "Orbit";
+"Color field" = "Color field";
+"Line" = "Line";
+"Standard" = "Standard";
+"Player" = "Player";
+"Player: %@" = "Player: %@";
+"Tap: pause · Swipe: skip · Hold: menu" = "Tap: pause · Swipe: skip · Hold: menu";
+"Shuffle: On" = "Shuffle: On";
+"Shuffle: Off" = "Shuffle: Off";
+"Repeat: Off" = "Repeat: Off";
+"Repeat: All" = "Repeat: All";
+"Repeat: One" = "Repeat: One";

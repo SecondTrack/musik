@@ -11,4 +11,7 @@
 + (double)duration;      // Sekunden
 + (double)currentTime;   // Sekunden (echte Abspielposition)
 + (void)seekTo:(double)seconds;   // an Position springen
+// Fürs Visualisieren, passend zur gerade hörbaren Stelle: Pegel/Bass 0..~1, wave = 64 Punkte -1..1.
+// NO = gerade nichts (Pause, Laden, Puffer noch nicht analysiert).
++ (BOOL)visual:(float *)level bass:(float *)bass wave:(float *)wave;
 @end

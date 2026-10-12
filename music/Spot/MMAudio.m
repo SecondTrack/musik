@@ -17,6 +17,29 @@ static int gCh=2;
 static double gSampleRate=44100.0, gDuration=0.0, gBaseTime=0.0;
 static BOOL gRunning=NO, gPaused=NO;
 
+// ---- Analyse fürs Visualisieren: pro Block (1024 Frames) Pegel, Bass und 64 Wellenpunkte.
+// Abgelegt nach absoluter Frame-Position, damit die Anzeige zur HÖRBAREN Stelle passt (Puffer laufen ~0,4 s voraus).
+#define VBLK 1024
+#define VRING 128
+#define VPTS 64
+static long  gFed=0;                       // bisher dekodierte Frames (absolut, ab Songanfang)
+static long  gVIdx[VRING];
+static float gVLvl[VRING], gVBass[VRING], gVWave[VRING][VPTS];
+static float gLp=0;                        // Tiefpass-Zustand für Bass
+static void analyze(const short*s,int frames,int ch){
+    for(int off=0; off+VBLK<=frames; off+=VBLK){
+        long blk=(gFed+off)/VBLK; int slot=(int)(blk%VRING);
+        double sum=0,bs=0; const short*p=s+off*ch;
+        for(int i=0;i<VBLK;i++){
+            float v=0; for(int c=0;c<ch;c++) v+=p[i*ch+c]; v/=(32768.f*ch);
+            sum+=v*v; gLp+=0.02f*(v-gLp); bs+=gLp*gLp;
+            if(i%(VBLK/VPTS)==0) gVWave[slot][i/(VBLK/VPTS)]=v;
+        }
+        gVLvl[slot]=sqrtf(sum/VBLK); gVBass[slot]=sqrtf(bs/VBLK); gVIdx[slot]=blk;
+    }
+    gFed+=frames;
+}
+
 static void fillCb(void *ud, AudioQueueRef q, AudioQueueBufferRef buf){
     if(!gV || !gRunning){ buf->mAudioDataByteSize=0; return; }
     short *out=(short*)buf->mAudioData;
@@ -31,6 +54,7 @@ static void fillCb(void *ud, AudioQueueRef q, AudioQueueBufferRef buf){
         });
         return;
     }
+    analyze(out,got,gCh);
     buf->mAudioDataByteSize=got*gCh*(int)sizeof(short);
     AudioQueueEnqueueBuffer(q,buf,0,NULL);
 }
@@ -52,7 +76,7 @@ static void fillCb(void *ud, AudioQueueRef q, AudioQueueBufferRef buf){
     gCh=info.channels>0?info.channels:2;
     gSampleRate=info.sample_rate>0?info.sample_rate:44100.0;
     gDuration=stb_vorbis_stream_length_in_seconds(gV);
-    gBaseTime=0;
+    gBaseTime=0; gFed=0; gLp=0; memset(gVIdx,0xff,sizeof(gVIdx));
 
     AudioStreamBasicDescription a; memset(&a,0,sizeof(a));
     a.mSampleRate=info.sample_rate;
@@ -106,7 +130,7 @@ static void fillCb(void *ud, AudioQueueRef q, AudioQueueBufferRef buf){
     if(seconds<0)seconds=0; if(gDuration>0&&seconds>gDuration)seconds=gDuration;
     if(gAQ){ AudioQueueStop(gAQ,true); AudioQueueDispose(gAQ,true); gAQ=NULL; }
     stb_vorbis_seek(gV,(unsigned int)(seconds*gSampleRate));
-    gBaseTime=seconds; gRunning=YES; gPaused=NO;
+    gBaseTime=seconds; gRunning=YES; gPaused=NO; gFed=(long)(seconds*gSampleRate); memset(gVIdx,0xff,sizeof(gVIdx));
     AudioStreamBasicDescription a; memset(&a,0,sizeof(a));
     a.mSampleRate=gSampleRate; a.mFormatID=kAudioFormatLinearPCM;
     a.mFormatFlags=kAudioFormatFlagIsSignedInteger|kAudioFormatFlagIsPacked;
@@ -114,6 +138,15 @@ static void fillCb(void *ud, AudioQueueRef q, AudioQueueBufferRef buf){
     if(AudioQueueNewOutput(&a,fillCb,NULL,NULL,NULL,0,&gAQ)!=0) return;
     for(int i=0;i<NUMBUF;i++){ AudioQueueBufferRef b=NULL; AudioQueueAllocateBuffer(gAQ,BUFFRAMES*2*gCh,&b); fillCb(NULL,gAQ,b); }
     AudioQueueStart(gAQ,NULL);
+}
+
++ (BOOL)visual:(float *)level bass:(float *)bass wave:(float *)wave {
+    if(!gAQ || gPaused || !gRunning) return NO;
+    long blk=(long)([self currentTime]*gSampleRate)/VBLK; int slot=(int)(blk%VRING);
+    if(blk<0 || gVIdx[slot]!=blk) return NO;
+    if(level)*level=gVLvl[slot]; if(bass)*bass=gVBass[slot];
+    if(wave) memcpy(wave,gVWave[slot],sizeof(float)*VPTS);
+    return YES;
 }
 
 @end
