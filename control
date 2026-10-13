@@ -1,0 +1,9 @@
+Package: de.mesh.music
+Name: Riff
+Version: 0.2.7
+Architecture: iphoneos-arm
+Description: Musik-Player fuer dein Spotify-Konto (iOS 6)
+Maintainer: Second Track
+Author: Second Track
+Section: Multimedia
+Depends: firmware (>= 5.0)
