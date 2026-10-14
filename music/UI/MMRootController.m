@@ -90,7 +90,32 @@ static MMRootController *gRoot;
     [MMSheet showIn:gRoot.view title:L(@"Log out?") subtitle:L(@"Removes your Spotify login, all downloads, playlists and settings from this iPod. Riff closes afterwards.")
             options:@[L(@"Log out and delete data")] done:^(NSInteger i){
         if(i!=0) return;
-        [MMSpotify logoutCompletion:^{ exit(0); }];
+        // Sofort sichtbar: abgedunkelt, Kreisel, Text; alles darunter nicht mehr bedienbar
+        UIView*host=gRoot.view.window ?: gRoot.view;
+        UIView*cover=[[UIView alloc] initWithFrame:host.bounds];
+        cover.backgroundColor=[UIColor colorWithWhite:0 alpha:0.82f]; cover.alpha=0;
+        cover.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        UIActivityIndicatorView*spin=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        spin.center=CGPointMake(host.bounds.size.width/2, host.bounds.size.height/2-20); [spin startAnimating]; [cover addSubview:spin];
+        UILabel*lab=[[UILabel alloc] initWithFrame:CGRectMake(20, host.bounds.size.height/2+20, host.bounds.size.width-40, 24)];
+        lab.text=L(@"Logging out …"); lab.textColor=[UIColor whiteColor]; lab.backgroundColor=[UIColor clearColor];
+        lab.textAlignment=NSTextAlignmentCenter; lab.font=[UIFont boldSystemFontOfSize:17]; [cover addSubview:lab];
+        [host addSubview:cover];
+        [UIView animateWithDuration:0.25 animations:^{ cover.alpha=1; }];
+        [MMSpotify logoutCompletion:^{
+            [spin stopAnimating]; spin.hidden=YES;
+            UILabel*check=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
+            check.center=spin.center; check.text=@"✓"; check.textColor=[UIColor colorWithRed:0.12 green:0.84 blue:0.38 alpha:1];
+            check.backgroundColor=[UIColor clearColor]; check.textAlignment=NSTextAlignmentCenter; check.font=[UIFont boldSystemFontOfSize:44];
+            [cover addSubview:check];
+            lab.text=L(@"Logged out");
+            // Normale Schließen-Animation zum Home-Bildschirm, danach den Prozess beenden (frischer Start = Anmeldung)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.9*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UIApplication*app=[UIApplication sharedApplication];
+                if([app respondsToSelector:@selector(suspend)]) [app performSelector:@selector(suspend)];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ exit(0); });
+            });
+        }];
     }];
 }
 

@@ -1053,16 +1053,21 @@ static void reachChanged(SCNetworkReachabilityRef r,SCNetworkReachabilityFlags f
 + (void)logoutCompletion:(void(^)(void))done {
     [MMAudio stop];
     @synchronized([MMSpotify class]){ [gDlQueue removeAllObjects]; gDlRunning=NO; gDlDone=0; gDlTotal=0; [gDlSeen removeAllObjects]; }
-    dispatch_async(spotQ(), ^{   // Socket gehört der spotQ
+    // Verbindung sofort kappen: eine laufende Anfrage auf der spotQ bricht damit ab, statt bis zum Timeout zu warten.
+    // Schließen und Zurücksetzen der Zustände folgt danach auf der spotQ (dort gehört der Socket hin).
+    int s=gSock; if(s>=0) shutdown(s, SHUT_RDWR);
+    dispatch_async(spotQ(), ^{
         if(gSock>=0){ close(gSock); gSock=-1; }
-        gToken=nil; gClientToken=nil; gSpclient=nil; gLiked=nil; gLikedAt=0; gRefreshDead=NO; gRefreshedAt=0; gLoginRejected=NO;
+        gToken=nil; gClientToken=nil; gSpclient=nil; gLiked=nil; gLikedAt=0; gRefreshDead=NO; gRefreshedAt=0; gLoginRejected=NO; gLog=nil;
         @synchronized([MMSpotify class]){ [gCache removeAllObjects]; [gCacheOrder removeAllObjects]; [gInflight removeAllObjects]; }
+    });
+    // Löschen wartet nicht auf die spotQ
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSFileManager*fm=[NSFileManager defaultManager];
         for(NSString*f in @[@".spotify-creds",@".spotify-user",@".spotify-usertoken",@".spotify-userrefresh",@".spotify-token",
                             @".spotify-datatoken",@".spotify-datarefresh",@".spotify-log"])
             [fm removeItemAtPath:[@"/var/mobile/" stringByAppendingString:f] error:NULL];
         [fm removeItemAtPath:@"/var/mobile/.spotcache" error:NULL];   // Downloads, Playlisten, Cover, API-Antworten
-        gLog=nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString*bid=[[NSBundle mainBundle] bundleIdentifier];
             if(bid) [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:bid];   // Warteschlange, letzter Song …
