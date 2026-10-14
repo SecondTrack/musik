@@ -84,6 +84,16 @@ static MMRootController *gRoot;
 }
 + (instancetype)shared { return gRoot; }
 
+// Abmelden: alles vom Konto löschen und Riff beenden. Beenden ist Absicht: so bleibt garantiert nichts vom alten
+// Konto im Speicher (Cover, Listen, Warteschlange); beim nächsten Öffnen kommt die Anmeldung.
++ (void)confirmLogout {
+    [MMSheet showIn:gRoot.view title:L(@"Log out?") subtitle:L(@"Removes your Spotify login, all downloads, playlists and settings from this iPod. Riff closes afterwards.")
+            options:@[L(@"Log out and delete data")] done:^(NSInteger i){
+        if(i!=0) return;
+        [MMSpotify logoutCompletion:^{ exit(0); }];
+    }];
+}
+
 - (void)loadView {
     gRoot = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(trackFinished) name:@"MMAudioDidFinish" object:nil];

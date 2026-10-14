@@ -2,6 +2,7 @@
 #import <UIKit/UIKit.h>
 @interface MMRootController : UIViewController
 + (instancetype)shared;
++ (void)confirmLogout;   // fragt nach, meldet ab und schließt Riff (beim nächsten Start: Anmeldung)
 - (void)showNowPlayingTitle:(NSString *)title artist:(NSString *)artist;  // Now-Playing-Leiste füllen
 // Spielt einen echten Track ab (Titel/Artist provisorisch; echte Metadaten + Cover werden nachgeladen).
 - (void)playTrackId:(NSString *)trackId title:(NSString *)title artist:(NSString *)artist cover:(NSString *)cover;

@@ -411,6 +411,7 @@ static NSArray* searchLetters(void){
         [self item:LF(@"Look: %@",@"Orbit") arrow:NO action:^{ [[MMRootController shared] setUIMode:@"orbit"]; }],
         [self item:LF(@"Look: %@",@"Pulse") arrow:NO action:^{ [[MMRootController shared] setUIMode:@"line"]; }],
         [self item:LF(@"Look: %@",@"Classic") arrow:NO action:^{ [[MMRootController shared] setClassicMode:NO]; }],
+        [self item:L(@"Log out") arrow:NO action:^{ [MMRootController confirmLogout]; }],
     ]];
 }
 // Farbe wechseln: alles neu aufbauen, Menüstapel und Auswahl bleiben

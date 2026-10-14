@@ -228,12 +228,13 @@
     UIView*host=[MMRootController shared].view;
     [MMSheet showIn:host title:L(@"Settings") subtitle:nil
             options:@[L(@"Look: Wheel, Orbit, Pulse …"),([MMSpotify hasSearchKey]?L(@"Change search key"):L(@"Unlock search")),
-                      ([MMKeepAlive enabled]?L(@"Background download: On"):L(@"Background download: Off")),L(@"About this app")]
+                      ([MMKeepAlive enabled]?L(@"Background download: On"):L(@"Background download: Off")),L(@"About this app"),L(@"Log out")]
                done:^(NSInteger i){ if(i>=0) [self settingsChoice:i]; }];
 }
 - (void)settingsChoice:(NSInteger)i {
     if(i==2){ [MMKeepAlive setEnabled:![MMKeepAlive enabled]]; [self openSettings]; return; }   // umschalten, Panel zeigt neuen Stand
     if(i==3){ [MMAboutView showIn:[MMRootController shared].view]; return; }
+    if(i==4){ [MMRootController confirmLogout]; return; }
     if(i==0){   // andere Oberfläche wählen
         NSArray*ms=@[@"ipod",@"orbit",@"line"]; NSMutableArray*o=[NSMutableArray array];
         for(NSString*m in ms) [o addObject:[MMRootController nameOfUIMode:m]];

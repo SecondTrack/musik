@@ -241,3 +241,7 @@
 "↓ %ld of %ld" = "↓ %ld von %ld";
 "Look: %@" = "Ansicht: %@";
 "Look: Wheel, Orbit, Pulse …" = "Ansicht: Wheel, Orbit, Pulse …";
+"Log out" = "Abmelden";
+"Log out?" = "Abmelden?";
+"Log out and delete data" = "Abmelden und Daten löschen";
+"Removes your Spotify login, all downloads, playlists and settings from this iPod. Riff closes afterwards." = "Entfernt deine Spotify-Anmeldung, alle Downloads, Playlisten und Einstellungen von diesem iPod. Riff schließt sich danach.";

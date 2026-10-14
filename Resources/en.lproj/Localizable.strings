@@ -228,3 +228,7 @@
 "↓ %ld of %ld" = "↓ %ld of %ld";
 "Look: %@" = "Look: %@";
 "Look: Wheel, Orbit, Pulse …" = "Look: Wheel, Orbit, Pulse …";
+"Log out" = "Log out";
+"Log out?" = "Log out?";
+"Log out and delete data" = "Log out and delete data";
+"Removes your Spotify login, all downloads, playlists and settings from this iPod. Riff closes afterwards." = "Removes your Spotify login, all downloads, playlists and settings from this iPod. Riff closes afterwards.";

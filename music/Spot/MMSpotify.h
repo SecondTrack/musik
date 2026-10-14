@@ -40,6 +40,9 @@
 + (BOOL)hasSearchKey;
 + (void)saveSearchKeyId:(NSString *)cid secret:(NSString *)sec completion:(void(^)(BOOL ok, NSString *error))done;
 + (void)removeSearchKey;
+// Abmelden: Wiedergabe und Downloads stoppen, Verbindung trennen, Anmeldung/Tokens, alle Downloads, Playlisten,
+// Cover und Einstellungen löschen. Der Suchschlüssel (Client-ID/Secret) gehört zur App und bleibt. done auf Main.
++ (void)logoutCompletion:(void(^)(void))done;
 // Suche (Katalog) über Web-API; status 401 = kein Such-Schlüssel auf dem Gerät.
 + (void)webGet:(NSString *)path completion:(void(^)(NSDictionary *json, NSInteger status))done;
 // Persönliche Daten (/me/playlists, /me/tracks, …): GET über interne Server, sonst Web-API. method = GET/PUT/DELETE/POST.

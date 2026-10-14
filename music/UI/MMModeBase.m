@@ -107,6 +107,7 @@
         [it addObject:[self item:LF(@"Look: %@",[MMRootController nameOfUIMode:m]) sub:nil action:^{ [[MMRootController shared] setUIMode:m]; }]];
     }
     [it addObject:[self item:L(@"About") sub:nil action:^{ [MMAboutView showIn:[MMRootController shared].view]; }]];
+    [it addObject:[self item:L(@"Log out") sub:nil action:^{ [MMRootController confirmLogout]; }]];
     return [self level:L(@"Settings") items:it];
 }
 - (void)refreshSettings {   // Wert in der Zeile ändern, Auswahl behalten

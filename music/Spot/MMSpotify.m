@@ -1049,4 +1049,27 @@ static void reachChanged(SCNetworkReachabilityRef r,SCNetworkReachabilityFlags f
         SCNetworkReachabilityScheduleWithRunLoop(reachRef(),CFRunLoopGetMain(),kCFRunLoopCommonModes);
     });
 }
+// Abmelden (am Ende, damit alle Zustände oben deklariert sind)
++ (void)logoutCompletion:(void(^)(void))done {
+    [MMAudio stop];
+    @synchronized([MMSpotify class]){ [gDlQueue removeAllObjects]; gDlRunning=NO; gDlDone=0; gDlTotal=0; [gDlSeen removeAllObjects]; }
+    dispatch_async(spotQ(), ^{   // Socket gehört der spotQ
+        if(gSock>=0){ close(gSock); gSock=-1; }
+        gToken=nil; gClientToken=nil; gSpclient=nil; gLiked=nil; gLikedAt=0; gRefreshDead=NO; gRefreshedAt=0; gLoginRejected=NO;
+        @synchronized([MMSpotify class]){ [gCache removeAllObjects]; [gCacheOrder removeAllObjects]; [gInflight removeAllObjects]; }
+        NSFileManager*fm=[NSFileManager defaultManager];
+        for(NSString*f in @[@".spotify-creds",@".spotify-user",@".spotify-usertoken",@".spotify-userrefresh",@".spotify-token",
+                            @".spotify-datatoken",@".spotify-datarefresh",@".spotify-log"])
+            [fm removeItemAtPath:[@"/var/mobile/" stringByAppendingString:f] error:NULL];
+        [fm removeItemAtPath:@"/var/mobile/.spotcache" error:NULL];   // Downloads, Playlisten, Cover, API-Antworten
+        gLog=nil;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString*bid=[[NSBundle mainBundle] bundleIdentifier];
+            if(bid) [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:bid];   // Warteschlange, letzter Song …
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            if(done) done();
+        });
+    });
+}
+
 @end
